@@ -1,0 +1,346 @@
+%
+% Main Theme File
+%
+% Declaration of Options, definition of specific commands the the design elements,
+% such as headline, footline and frametitle
+%
+% Published under Beeware-License:
+%
+% Ronny Bergmann <bergmann@math.uni-luebeck.de> wrote this file. As long as you retain this notice you
+% can do whatever you want with this stuff. If we meet some day, and you think 
+% this stuff is worth it, you can buy me a beer or coffee in return.
+
+\ProvidesPackage{beamerthemeUzL}[2010/12/10 v0.9 beamer theme in the corporate design of the University of Luebeck]
+\RequirePackage{ifthen}
+\RequirePackage{calc}
+\mode<presentation>
+%
+%  Option: Display Footline on_/off
+%
+\newif\ifUzL@showfootline%
+%
+\DeclareOptionBeamer{footline}[true]{\csname UzL@showfootline#1\endcsname}
+\ExecuteOptionsBeamer{footline=true}
+%
+\DeclareOptionBeamer{displayfootline}{\Uzl@showfootlinetrue}
+\DeclareOptionBeamer{hidefootline}{\Uzl@showfootlinefalse}
+
+%
+%  Option: Display Slogan on_/off
+%
+\newif\ifUzL@showslogan%
+%
+\DeclareOptionBeamer{slogan}[true]{\csname UzL@showslogan#1\endcsname}
+\ExecuteOptionsBeamer{slogan=true}
+%alternative commands
+\DeclareOptionBeamer{displayslogan}{\Uzl@showslogantrue}
+\DeclareOptionBeamer{hideslogan}{\Uzl@showsloganfalse}
+
+
+%
+%  Option: Use Myriad on_/off
+%
+\newif\ifUzL@useMyriad%
+%
+\DeclareOptionBeamer{myriad}[true]{\csname UzL@useMyriad#1\endcsname}
+\ExecuteOptionsBeamer{myriad=true}
+% alternate commands
+\DeclareOptionBeamer{usemyriad}{\Uzl@useMyriadtrue}
+\DeclareOptionBeamer{nomyriad}{\Uzl@useMyriadfalse}
+
+%
+%  Option: Display Total Frame Number in Footline (only if visible) on_/off
+%
+\newif\ifUzL@displayTotalFramenumber%
+%
+\DeclareOptionBeamer{frametotal}[true]{\csname UzL@displayTotalFramenumber#1\endcsname}
+\ExecuteOptionsBeamer{frametotal}
+% alternate
+\DeclareOptionBeamer{displayframetotal}{\Uzl@displayTotalFramenumbertrue}
+\DeclareOptionBeamer{hideframetotal}{\Uzl@displayTotalFramenumberfalse}
+
+%
+%  Option: Reduce Frame Number in Footline (only if visible) on_/off
+%
+\newif\ifUzL@reduceFramenumber%
+%
+\DeclareOptionBeamer{reduceframenumber}[false]{\csname UzL@reduceFramenumber#1\endcsname}
+\ExecuteOptionsBeamer{reduceframenumber}
+
+%
+%  Option: Display Total Frame Number in Footline (only if visible) on_/off
+%
+\newif\ifUzL@displayNavigation%
+%
+\DeclareOptionBeamer{navigation}[true]{\csname UzL@displayNavigation#1\endcsname}
+\ExecuteOptionsBeamer{navigation}
+\DeclareOptionBeamer{hidenavigation}{\UzL@displayNavigationfalse}
+\DeclareOptionBeamer{displaynavigation}{\UzL@displayNavigationtrue}
+
+%
+% Logo Option, define Logo number directly or by using some of logocount <=3
+%
+%
+\newcounter{UzL@logonum}
+\setcounter{UzL@logonum}{1}%
+\newif\ifUzL@logoOneused%
+\UzL@logoOneusedfalse%
+\newif\ifUzL@logoTwoused%
+\UzL@logoTwousedfalse%
+\newif\ifUzL@logoThreeused%
+\UzL@logoThreeusedfalse%
+
+
+%For storing image stuff
+%
+
+\ProcessOptionsBeamer
+
+% After Processing Options the variable is correct so load Myriad (Standard)
+\ifUzL@useMyriad
+\RequirePackage[no-math]{fontspec} 
+\RequirePackage{xltxtra}
+\defaultfontfeatures{Mapping=tex-text} % converts LaTeX specials (``quotes'' --- dashes etc.) to unicode
+\setsansfont[Ligatures={Common}]{Myriad Pro}
+\RequirePackage{MnSymbol}
+\fi
+
+%
+% Internal measurements
+%
+\newlength{\UzL@innerwidth}
+\setlength{\UzL@innerwidth}{.95\paperwidth}
+\newlength{\UzL@headheight}
+\setlength{\UzL@headheight}{.1\paperheight}
+
+%
+% Logo stuff
+%
+
+%
+% Set the logo specified with the first number to the width of second calue and image third
+\newcommand{\setlogo}[3]{%
+	\ifx#3\@empty%
+		\clearlogo{#1}%
+	\else%
+		\setcounter{UzL@logonum}{\maxof{\value{UzL@logonum}}{#1}}
+		\ifcase #1 %0 do nothing
+		\PackageError{beamerthemeUzL}{A Logo 0 can't be defined.}{The Logo index should be between including 1 and 3.}
+		\or %1
+		\pgfdeclareimage[width=#2]{UzLlogo1}{#3}%
+		\UzL@logoOneusedtrue%
+		\or %2
+		\pgfdeclareimage[width=#2]{UzLlogo2}{#3}%
+		\UzL@logoTwousedtrue%
+		\or %3
+		\pgfdeclareimage[width=#2]{UzLlogo3}{#3}%
+		\UzL@logoThreeusedtrue%
+		\else
+		\PackageError{beamerthemeUzL}{A Logo #1 can't be defined.}{The Logo index should be between including 1 and 3.}
+		\fi
+}
+\newcommand{\clearlogo}[1]{%
+	\if\value{UzLlogonum}=#1
+	\setcounter{UzL@logonum}{\value{UzL@logonum} - 1}%
+	\fi%
+	\ifcase #1 %0 clear specific image
+	\PackageError{beamerthemeUzL}{A Logo 0 can't be deleted.}{The Logo index should be between including 1 and 3.}
+		\or %1
+			\pgfdeclareimage{UzLlogo1}{}%
+			\UzL@logoOneusedfalse%
+		\or %2
+			\pgfdeclareimage{UzLlogo2}{}%
+			\UzL@logoTwousedfalse%
+		\or %3
+			\pgfdeclareimage{UzLlogo3}{}%
+			\UzL@logoTwousedfalse%
+		\else
+			\PackageError{beamerthemeUzL}{A Logo #1 can't be deleted.}{The Logo index should be between including 1 and 3.}%
+		\fi%
+}
+
+% For the Output the navigation may be disabled by the first parameter,
+% all other data is taken from the private variables of the logos
+% Optionen
+% - 1 und Navigation (2 Spalten 316666666667% / 63.3333333333 %, in zweiter Navigation optional, beide links)
+% - 2 immer ohne Navigation (2 Spalten 47.5% beide´, links, rechts)
+% - 3 und Navigation (2 Spalten 31.666667 alle 3, links mitte rechts)
+%
+\newcommand{\UzL@LogoColumnOutput}[1]{%
+	\if#1N %switches automatically to 1 logo + navigation
+		\hspace{-.006\paperwidth} %hack :(
+		\begin{beamercolorbox}[wd=.33\UzL@innerwidth,ht=\UzL@headheight,vmode,left]{}
+  			\ifUzL@logoOneused\pgfuseimage{UzLlogo1}\fi%
+  		\end{beamercolorbox}\hspace{-0.1pt}%Hacked up to now
+		\begin{beamercolorbox}[wd=.67\UzL@innerwidth,ht=\UzL@headheight,vmode,left]{}
+   			\insertnavigation{.67\UzL@innerwidth}
+  		\end{beamercolorbox}
+	\else % Never display navigation
+	\ifcase \value{UzL@logonum} %depending on the number of logos
+		\or %1 Logo
+		\begin{beamercolorbox}[wd=.5\UzL@innerwidth,ht=\UzL@headheight,vmode,left]{}
+	  		\ifUzL@logoOneused\pgfuseimage{UzLlogo1}\fi
+  		\end{beamercolorbox}
+		\or %2 logos
+		\begin{beamercolorbox}[wd=.5\UzL@innerwidth,ht=\UzL@headheight,vmode,left]{}
+	  		\ifUzL@logoOneused\pgfuseimage{UzLlogo1}\fi
+  		\end{beamercolorbox}\hspace{-1pt}%Hacked up to now
+		\begin{beamercolorbox}[wd=.5\UzL@innerwidth,ht=\UzL@headheight,vmode,right]{}
+  			\hfill
+	  		\ifUzL@logoTwoused\pgfuseimage{UzLlogo2}\fi
+  		\end{beamercolorbox}
+		\or %3 logos
+		\begin{beamercolorbox}[wd=.333\UzL@innerwidth,ht=\UzL@headheight,vmode,left]{}
+	  		\ifUzL@logoOneused\pgfuseimage{UzLlogo1}\fi
+  		\end{beamercolorbox}\hspace{-1pt}%Hacked up to now
+		\begin{beamercolorbox}[wd=.333\UzL@innerwidth,ht=\UzL@headheight,vmode,center]{}
+	  		\ifUzL@logoTwoused\pgfuseimage{UzLlogo2}\fi
+  		\end{beamercolorbox}\hspace{-1pt}%Hacked up to now
+		\begin{beamercolorbox}[wd=.333\UzL@innerwidth,ht=\UzL@headheight,vmode,right]{}
+			\ifUzL@logoThreeused\pgfuseimage{UzLlogo3}\fi
+  		\end{beamercolorbox}
+		\fi%
+	\fi%
+}
+%
+% Std. Logo
+%
+\IfFileExists {logos/unilogo300dpi.png}
+{%
+\setlogo{1}{.25\paperwidth}{logos/unilogo300dpi.png}%
+}{%
+\ClassWarningNoLine{beamerthemeUzL}{%
+Missing Logo: File logos/unilogo300dpi.png not found!}{}
+}
+%
+% Slogan Image
+%
+\pgfdeclareimage[height=2.75mm]{uzlslogan}{logos/slogan2.png}
+
+\usecolortheme{UzL}
+\useinnertheme{UzL}
+\useoutertheme[subsection=false]{miniframes}
+
+\setbeamertemplate{blocks}[rounded]
+\setbeamertemplate{items}[ball]
+\setbeamertemplate{sections/subsections in toc}[ball]
+
+\defbeamertemplate*{footline}{UzL}
+{%
+	\ifUzL@showfootline
+		\leavevmode%
+		\centering
+		\hbox{%
+		\hspace{0.0001pt}
+			\begin{beamercolorbox}[wd=.333\UzL@innerwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+			\usebeamerfont{author in head/foot}\insertshortauthor%
+			\ifx\insertshortinstitute\@empty%
+			\ %
+			\else%
+				~~(\insertshortinstitute)%
+			\fi%
+			\end{beamercolorbox}\hspace{-1pt}%Hacked up to now
+			\begin{beamercolorbox}[wd=.353\UzL@innerwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+				\usebeamerfont{title in head/foot}\insertshorttitle
+			\end{beamercolorbox}\hspace{-1pt}%Hacked up to now
+			\begin{beamercolorbox}[wd=.313\UzL@innerwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+				\usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+				\ifUzL@reduceFramenumber
+					\pgfmathtruncatemacro{\numerator}{\insertframenumber/gcd(\insertframenumber,\inserttotalframenumber)}%
+					\pgfmathtruncatemacro{\denominator}{\inserttotalframenumber/gcd(\insertframenumber,\inserttotalframenumber)}%
+					\pgfmathsetmacro{\myrandomoutputvar}{\denominator<2?"\numerator":"\numerator/\denominator"}
+					\myrandomoutputvar
+				\else%
+					\insertframenumber{}%
+					\ifUzL@displayTotalFramenumber%
+						/\inserttotalframenumber%
+					\fi%
+				\fi%
+				\hspace*{2ex}%
+			\end{beamercolorbox}
+		}%
+		\vskip.022\paperheight
+\fi
+}
+
+\defbeamertemplate{footline}{UzLplain}{}
+
+\defbeamertemplate*{headline}{UzL} 
+{ 
+\leavevmode
+\vskip.5\baselineskip
+\hspace{.02\paperwidth}
+		% Header Output
+		\ifUzL@displayNavigation%
+			\UzL@LogoColumnOutput{N}%
+		\else%
+			\UzL@LogoColumnOutput{}%
+		\fi%
+		\strut
+		\par
+		\vskip.5\baselineskip
+		\hspace{.02\paperwidth}
+		%
+		%create background color box
+		%
+		\begin{beamercolorbox}[wd=\UzL@innerwidth,ht=.8\paperheight,leftskip=.025\paperwidth,rightskip=.025\paperwidth  plus1fil,vmode]{palette primary}
+	\end{beamercolorbox}
+	\vspace{-.85\paperheight}
+}
+
+\defbeamertemplate{headline}{UzLplain} 
+{ 
+\leavevmode
+\vskip.5\baselineskip
+\hspace{.02\paperwidth}
+	\UzL@LogoColumnOutput{}%
+		\strut
+		\par
+		\vskip.5\baselineskip
+		\hspace{.02\paperwidth}
+		%
+		%create background color box
+		%
+		\begin{beamercolorbox}[wd=\UzL@innerwidth,ht=.8\paperheight,leftskip=.025\paperwidth,rightskip=.025\paperwidth  plus1fil,vmode]{palette primary}
+	\end{beamercolorbox}
+	\vspace{-.85\paperheight}}
+
+
+\defbeamertemplate*{frametitle}{UzL}
+{%
+	\nointerlineskip%
+	\begin{beamercolorbox}[wd=\UzL@innerwidth,leftskip=.3cm,rightskip=.3cm plus1fil,vmode]{frametitle}
+		\vskip.5ex%
+		\par{\usebeamerfont*{frametitle}\insertframetitle\strut\par}%
+		\ifx\insertframesubtitle\@empty%
+			\strut\par%
+			\vspace{-1\baselineskip}%
+		\else%
+%			\vspace{.25\baselineskip}%
+			\par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\strut\par}%
+		\fi%%
+		\vskip.5ex
+	\end{beamercolorbox}%
+	\nointerlineskip%
+}
+\setbeamersize{text margin left=2em,text margin right=2em}
+
+\renewcommand{\maketitle}[0]
+{%
+	\setbeamertemplate{headline}[UzLplain]%
+	\setbeamertemplate{footline}[UzLplain]%
+	\ifbeamer@inframe%
+		\vspace{1.3ex}%
+		\titlepage%
+	\else%
+		\frame[t]{\titlepage}%
+	\fi%
+  	\setbeamertemplate{headline}[UzL]%
+	\setbeamertemplate{footline}[UzL]%
+}
+
+
+\mode
+<all>
+
+\makeatletter
