@@ -1,0 +1,4 @@
+*~
+*.log
+*.jl.cov
+*.jl.mem
