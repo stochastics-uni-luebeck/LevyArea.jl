@@ -1,19 +1,19 @@
-```
+"""
     simdoubleintegrals(W::Vector{Float64}, n::Integer)
 
 Simulates an approximation of all one-time iterated Itô-integrals
 of the given Brownian motions with step size 1.
-The algorithm is taken from [^Wiktorsson (2001)].
+The algorithm is taken from [^Wiktorsson2001].
 
 Input:  W   the increments of m Brownian motions, where `m = length(W)`
         n   number of terms in the approximation of the stochastic area integral
-Output: I[i,j] is an approximation of ∫₀ʰ Wᵢ(s) dWⱼ(s)
+Output: I[i,j] is an approximation of ``\\int_0^hW_i(s)dW_j(s)``
 
 ### References
-[^Wiktorsson (2001)]: *"Joint characteristic function and simultaneous simulation
+[^Wiktorsson2001]: *"Joint characteristic function and simultaneous simulation
     of iterated Itô integrals for multiple independent Brownian motions."*
     The Annals of Applied Probability 11.2: 470-487.
-```
+"""
 function simdoubleintegrals(W::Vector{Float64}, n::Integer)
     # Preparation
     m::Integer = length(W)
