@@ -43,6 +43,7 @@ end
 
 function simdoubleintegrals(W::Vector{Float64}, h::Real, C::Real)
     lmul!(1/√h, W)
+    m::Integer = length(W)
     n::Int64 = ceil(Int64, √( m*(m-1)*(m+4*(W'*W))/(C*h*24*π^2) ))
     Iᵢⱼ = simdoubleintegrals(W, n)
     lmul!(√h, W)
