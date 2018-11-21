@@ -25,10 +25,12 @@ branches:
 
 notifications:
   email: false
+  
+coveralls: true
 
-after_success:
-  - if [ $TRAVIS_JULIA_VERSION = "1.0" ] && [ $TRAVIS_OS_NAME = "linux" ]; then
-      julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
-    fi
+#after_success:
+#  - if [ $TRAVIS_JULIA_VERSION = "1.0" ] && [ $TRAVIS_OS_NAME = "linux" ]; then
+#      julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
+#    fi
 #  - julia -e 'using Pkg; ps=Pkg.PackageSpec(name="Documenter", version="0.19"); Pkg.add(ps); Pkg.pin(ps)'
 #  - julia docs/make.jl
