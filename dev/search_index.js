@@ -17,19 +17,67 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#SRK.simdoubleintegrals-Tuple{Array{Float64,1},Integer}",
+    "location": "#SRK.em",
     "page": "Home",
-    "title": "SRK.simdoubleintegrals",
-    "category": "method",
-    "text": "simdoubleintegrals(W::Vector{Float64}, n::Integer)\n\nSimulates an approximation of all one-time iterated Itô-integrals of the given Brownian motions with step size 1. The algorithm is taken from [Wiktorsson2001].\n\nInput:  W   the increments of m Brownian motions, where m = length(W)         n   number of terms in the approximation of the stochastic area integral Output: I[i,j] is an approximation of int_0^hW_i(s)dW_j(s)\n\nReferences\n\n[Wiktorsson2001]: \"Joint characteristic function and simultaneous simulation of iterated Itô integrals for multiple independent Brownian motions.\" The Annals of Applied Probability 11.2: 470-487.\n\n\n\n\n\n"
+    "title": "SRK.em",
+    "category": "function",
+    "text": "em(drift::Function, diffusion::Function,\n    𝓘::AbstractRange,\n    m::Integer, X₀::AbstractVector{<:Real},\n    dW::Union{AbstractArray,Nothing}=nothing)\n\nTODO: write docs\n\n\n\n\n\n"
 },
 
 {
-    "location": "#Functions-1",
+    "location": "#SRK.simdoubleintegrals",
     "page": "Home",
-    "title": "Functions",
+    "title": "SRK.simdoubleintegrals",
+    "category": "function",
+    "text": "simdoubleintegrals(W::AbstractVector{AbstractFloat64}, h::Real, C::Real=1.0)\nsimdoubleintegrals(W::Real, h::Real=1.0)\n\nSimulates an approximation of the iterated Itô-integrals int_0^hint_0^sdW_i(t)dW_j(s) for all pairs 1le i j le m of the given m-dimensional Brownian motion with step size h. For the used algorithm see [Wiktorsson2001].\n\nIn the case of a scalar Brownian motion the integral can be explicitly calculated as int_0^hint_0^sdW(t)dW(s) = frac12W(h)^2 - frac12h.\n\n\n\n\n\n"
+},
+
+{
+    "location": "#SRK.sri",
+    "page": "Home",
+    "title": "SRK.sri",
+    "category": "function",
+    "text": "sri(drift::Function, diffusion::Function,\n    𝓘::AbstractRange,\n    m::Integer, X₀::AbstractVector{<:Real},\n    dW::Union{AbstractArray,Nothing}=nothing)\n\nTODO: write docs\n\n\n\n\n\n"
+},
+
+{
+    "location": "#Exported-Functions-1",
+    "page": "Home",
+    "title": "Exported Functions",
     "category": "section",
     "text": "Modules = [SRK]\nPrivate = false\nOrder = [:type, :function]"
+},
+
+{
+    "location": "#SRK.createBrownianPath-Tuple{AbstractRange,Integer}",
+    "page": "Home",
+    "title": "SRK.createBrownianPath",
+    "category": "method",
+    "text": "createBrownianPath(I::AbstractRange,m::Integer)\n\nGenerate an m-dimensional Brownian path at the timepoints specified by I. The path always starts at 0_m.\n\n\n\n\n\n"
+},
+
+{
+    "location": "#SRK.restrict",
+    "page": "Home",
+    "title": "SRK.restrict",
+    "category": "function",
+    "text": "restrict(I::AbstractRange,dW::AbstractArray,k::Integer=1)\n\nRestrict a path of a Brownian motion given by a range of time points and the corresponding Brownian increments to frac12^k as many time points. The lengths of I and the first dimension of dW must match and be of the form 2^n+1 for some nge k.\n\n\n\n\n\n"
+},
+
+{
+    "location": "#SRK.simdoubleintegrals_n-Tuple{AbstractArray{#s21,1} where #s21<:AbstractFloat,Integer}",
+    "page": "Home",
+    "title": "SRK.simdoubleintegrals_n",
+    "category": "method",
+    "text": "simdoubleintegrals(W::AbstractVector{AbstractFloat64}, n::Integer)\n\nSimulates an approximation of all one-time iterated Itô-integrals of the given Brownian motions with step size 1. The algorithm is taken from [Wiktorsson2001].\n\nInput:  W   the increments of m Brownian motions, where m = length(W)         n   number of terms in the approximation of the stochastic area integral Output: I[i,j] is an approximation of int_0^1W_i(s)dW_j(s)\n\n\n\n\n\n"
+},
+
+{
+    "location": "#Non-Exported-Functions-1",
+    "page": "Home",
+    "title": "Non-Exported Functions",
+    "category": "section",
+    "text": "Modules = [SRK]\nPublic = false\nOrder = [:type, :function]"
 },
 
 {
@@ -38,6 +86,14 @@ var documenterSearchIndex = {"docs": [
     "title": "Index",
     "category": "section",
     "text": ""
+},
+
+{
+    "location": "#References-1",
+    "page": "Home",
+    "title": "References",
+    "category": "section",
+    "text": "[Wiktorsson2001]: \"Joint characteristic function and simultaneous simulation of iterated Itô integrals for multiple independent Brownian motions.\" The Annals of Applied Probability 11.2: 470-487."
 },
 
 ]}
