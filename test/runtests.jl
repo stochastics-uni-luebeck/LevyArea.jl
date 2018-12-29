@@ -9,17 +9,22 @@ Random.seed!(638278)
 @testset "Iterated Integrals" begin
     @testset "Expected Output m=5" begin
         W = randn(5)
-        Ints = simdoubleintegrals(W,2)
-        expected_output = [ 0.418259   -0.560299    0.14876    0.390997   -1.33136;
-                            0.0243588  -0.4218     -0.208187  -0.334559    0.357775;
-                            0.861727   -0.0866971  -0.222006  -0.0437886  -0.224937;
-                           -0.0646903   0.239335    0.223329  -0.471011   -0.258644;
-                            0.705706   -0.175193   -0.119312   0.147479   -0.393427]
+        Ints = SRK.simdoubleintegrals_n(W,2) # 2 approximation terms
+        expected_output = [0.418259  0.0677285 0.809848 -0.220337  -0.0419943;
+                          -0.603668 -0.4218   -0.166696 -0.233224   0.0483685;
+                           0.200639 -0.128188 -0.222006  0.0609429 -0.0259348;
+                           0.546643  0.138     0.118597 -0.471011   0.0385036;
+                          -0.583664  0.134213 -0.318314 -0.149669  -0.393427]
         @test Ints ≈ expected_output atol=1e-5
     end
-    @testset "Diagonal m=$i" for i in 5:5:50
-        W = randn(i)
-        Ints = simdoubleintegrals(W, 1.0, 1.0)
-        @test diag(Ints) == 0.5*W.^2 .- 0.5
+    @testset "m=1, h=$h" for h in rand(5)
+        W = √h * randn()
+        @time Ints = simdoubleintegrals(W,h)
+        @test Ints == 0.5W^2 - 0.5h
+    end
+    @testset "Diagonal m=$i, h=$h" for i in [1;50:50:500], h in rand(2)
+        W = √h * randn(i)
+        @time Ints = simdoubleintegrals(W, h) # stepsize h
+        @test diag(Ints) ≈ 0.5*W.^2 .- 0.5h
     end
 end

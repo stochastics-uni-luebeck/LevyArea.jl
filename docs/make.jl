@@ -5,7 +5,8 @@ makedocs(
     modules = [SRK],
     pages = [
         "Home" => "index.md"
-    ]
+    ],
+    format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true")
 )
 
 deploydocs(
