@@ -37,6 +37,14 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "SRK.sri",
     "category": "function",
+    "text": "sri for one-dimensional processes\nthis needs out-of-place drift & diffusion\n\n\n\n\n\n"
+},
+
+{
+    "location": "#SRK.sri",
+    "page": "Home",
+    "title": "SRK.sri",
+    "category": "function",
     "text": "sri(drift::Function, diffusion::Function,\n    𝓘::AbstractRange,\n    m::Integer, X₀::AbstractVector{<:Real},\n    dW::Union{AbstractArray,Nothing}=nothing)\n\nTODO: write docs\n\n\n\n\n\n"
 },
 
