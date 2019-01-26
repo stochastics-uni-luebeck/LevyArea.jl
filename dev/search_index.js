@@ -73,11 +73,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "#SRK.simdoubleintegrals_n-Tuple{AbstractArray{#s21,1} where #s21<:AbstractFloat,Integer}",
+    "location": "#SRK.simdoubleintegrals_n-Tuple{AbstractArray{#s27,1} where #s27<:AbstractFloat,Integer}",
     "page": "Home",
     "title": "SRK.simdoubleintegrals_n",
     "category": "method",
-    "text": "simdoubleintegrals(W::AbstractVector{AbstractFloat64}, n::Integer)\n\nSimulates an approximation of all one-time iterated Itô-integrals of the given Brownian motions with step size 1. The algorithm is taken from [Wiktorsson2001].\n\nInput:  W   the increments of m Brownian motions, where m = length(W)         n   number of terms in the approximation of the stochastic area integral Output: I[i,j] is an approximation of int_0^1W_i(s)dW_j(s)\n\n\n\n\n\n"
+    "text": "simdoubleintegrals(W::AbstractVector{AbstractFloat64}, n::Integer)\n\nSimulates an approximation of all one-time iterated Itô-integrals of the given Brownian motions with step size 1. The algorithm is an adaptation of [Wiktorsson2001]. The algorithm needs approximately 2cdot m^2+2cdot mcdot n+m Float64\'s. The time complexity should be around mathcalO(m^2cdot n).\n\nInput:  W   the increments of m Brownian motions, where m = length(W)         n   number of terms in the approximation of the stochastic area integral Output: I[i,j] is an approximation of int_0^1W_i(s)dW_j(s)\n\n[Wiktorsson2001]: \"Joint characteristic function and simultaneous simulation of iterated Itô integrals for multiple independent Brownian motions.\" The Annals of Applied Probability 11.2: 470-487.\n\n\n\n\n\n"
 },
 
 {
@@ -94,14 +94,6 @@ var documenterSearchIndex = {"docs": [
     "title": "Index",
     "category": "section",
     "text": ""
-},
-
-{
-    "location": "#References-1",
-    "page": "Home",
-    "title": "References",
-    "category": "section",
-    "text": "[Wiktorsson2001]: \"Joint characteristic function and simultaneous simulation of iterated Itô integrals for multiple independent Brownian motions.\" The Annals of Applied Probability 11.2: 470-487."
 },
 
 ]}
