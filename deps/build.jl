@@ -1,1 +1,2 @@
-println("I am being built...")
+using Dates
+println(now(),": I am being built...")

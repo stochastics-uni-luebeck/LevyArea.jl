@@ -3,39 +3,52 @@
 
 Simulates an approximation of all one-time iterated Itô-integrals
 of the given Brownian motions with step size 1.
-The algorithm is taken from [^Wiktorsson2001].
+The algorithm is an adaptation of [^Wiktorsson2001].
+The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n+m`` Float64's.
+The time complexity should be around ``\\mathcal{O}(m^2\\cdot n)``.
 
 Input:  W   the increments of m Brownian motions, where `m = length(W)`
         n   number of terms in the approximation of the stochastic area integral
 Output: I[i,j] is an approximation of ``\\int_0^1W_i(s)dW_j(s)``
+
+[^Wiktorsson2001]: *"Joint characteristic function and simultaneous simulation
+    of iterated Itô integrals for multiple independent Brownian motions."*
+    The Annals of Applied Probability 11.2: 470-487.
 
 """
 function simdoubleintegrals_n(W::AbstractVector{<:AbstractFloat}, n::Integer;
     rng = GLOBAL_RNG)
     # Preallocate
     m::Integer = length(W)
-    A = similar(W,m,m)
-    G = similar(W,m,m)
+    A = similar(W,m,m) # allocates m*m Floats
+    G = similar(W,m,m) # allocates m*m Floats
     # 1. Simulate Brownian motion and determine n
     #    These are given as input arguments.
     # 2. Simulate Xₖ and Yₖ and approximate stochastic area integral
-    mul!(A, (randn(rng,m,n) .+ √(2).*W) ./ (1:n)', randn(rng,n,m)) #allocates
+    Y = randn(rng,m,n) # allocates m*n Floats
+    Y .= (Y .+ √(2).*W) ./ (1:n)'
+    mul!(A,Y,randn(rng,n,m)) # allocates m*n Floats
     # 3.a Simulate Gₙ
     a = √(2*trigamma(n+1))
     for j=1:m
-        for i=1:j
-            @inbounds G[i,j] = 0.0
+        @simd for i=1:j-1
+            @inbounds G[i,j] = - @inbounds G[j,i]
         end
-        for i=j+1:m
+        @inbounds G[j,j] = 0.0
+        @simd for i=j+1:m
             @inbounds G[i,j] = a * randn()
+            @inbounds A[i,j] += @inbounds G[i,j]
         end
     end
     # 3.b and add the tail-sum approximation
-    A .+= 1 ./ (1+√(1+W'*W)) .* W.* (W'*G .- W'*G') .+ G
-    G .= A .- A' # reuse G to save allocations
+    A .+= inv(1+√(1+W'*W)) .* W .* (W'*G) # allocates m Floats
+    G .= (A .- A').*inv(2π) # reuse G to save allocations
     # 4. Calculate the iterated integrals
-    A .= (W*W'-I)./2 .+ G./2π
-    A
+    BLAS.ger!(0.5,W,W,G) # 0.5*W*W' + G
+    @inbounds for i=1:m # G-0.5I
+        G[i,i] -= 0.5
+    end
+    G
 end
 
 """
