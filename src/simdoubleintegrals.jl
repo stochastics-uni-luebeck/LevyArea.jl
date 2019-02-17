@@ -31,12 +31,10 @@ function simdoubleintegrals_n(W::AbstractVector{<:AbstractFloat}, n::Integer;
     # 3.a Simulate Gₙ
     a = √(2*trigamma(n+1))
     for j=1:m
-        @simd for i=1:j-1
-            @inbounds G[i,j] = - @inbounds G[j,i]
-        end
         @inbounds G[j,j] = 0.0
-        @simd for i=j+1:m
+        for i=j+1:m
             @inbounds G[i,j] = a * randn()
+            @inbounds G[j,i] = - @inbounds G[i,j]
             @inbounds A[i,j] += @inbounds G[i,j]
         end
     end
