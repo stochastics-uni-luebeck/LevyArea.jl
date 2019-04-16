@@ -26,23 +26,23 @@ function simdoubleintegrals_n(W::AbstractVector{<:AbstractFloat}, n::Integer;
     #    These are given as input arguments.
     # 2. Simulate Xₖ and Yₖ and approximate stochastic area integral
     Y = randn(rng,m,n) # allocates m*n Floats
-    Y .= (Y .+ √(2).*W) ./ (1:n)'
+    Y .= (Y .- √(2).*W) ./ (1:n)'
     mul!(A,Y,randn(rng,n,m)) # allocates m*n Floats
     # 3.a Simulate Gₙ
     a = √(2*trigamma(n+1))
     for j=1:m
         @inbounds G[j,j] = 0.0
         for i=j+1:m
-            @inbounds G[i,j] = a * randn()
-            @inbounds G[j,i] = - @inbounds G[i,j]
-            @inbounds A[i,j] += @inbounds G[i,j]
+            g = a * randn()
+            @inbounds G[i,j] = g
+            @inbounds G[j,i] = -g
+            @inbounds A[i,j] += g
         end
     end
     # 3.b and add the tail-sum approximation
     A .+= inv(1+√(1+W'*W)) .* W .* (W'*G) # allocates m Floats
-    G .= (A .- A').*inv(2π) # reuse G to save allocations
     # 4. Calculate the iterated integrals
-    BLAS.ger!(0.5,W,W,G) # 0.5*W*W' + G
+    G .= 0.5.*W.*W' .+ inv(2pi).*(A .- A') # reuse G to save allocations
     @inbounds for i=1:m # G-0.5I
         G[i,i] -= 0.5
     end
