@@ -22,13 +22,11 @@ function simdoubleintegrals_n(W::AbstractVector{<:AbstractFloat}, n::Integer;
     m::Integer = length(W)
     A = similar(W,m,m) # allocates m*m Floats
     G = similar(W,m,m) # allocates m*m Floats
-    # 1. Simulate Brownian motion and determine n
-    #    These are given as input arguments.
-    # 2. Simulate Xₖ and Yₖ and approximate stochastic area integral
+    # 1. Simulate Xₖ and Yₖ and approximate stochastic area integral
     Y = randn(rng,m,n) # allocates m*n Floats
     Y .= (Y .- √(2).*W) ./ (1:n)'
     mul!(A,Y,randn(rng,n,m)) # allocates m*n Floats
-    # 3.a Simulate Gₙ
+    # 2.a Simulate Gₙ
     a = √(2*trigamma(n+1))
     for j=1:m
         @inbounds G[j,j] = 0.0
@@ -39,9 +37,9 @@ function simdoubleintegrals_n(W::AbstractVector{<:AbstractFloat}, n::Integer;
             @inbounds A[i,j] += g
         end
     end
-    # 3.b and add the tail-sum approximation
-    A .+= inv(1+√(1+W'*W)) .* W .* (W'*G) # allocates m Floats
-    # 4. Calculate the iterated integrals
+    # 2.b and add the tail-sum approximation
+    A .+= inv(1+√(1+W'*W)) .* (G*W) .* W' # allocates m Floats
+    # 3. Calculate the iterated integrals
     G .= 0.5.*W.*W' .+ inv(2pi).*(A .- A') # reuse G to save allocations
     @inbounds for i=1:m # G-0.5I
         G[i,i] -= 0.5
