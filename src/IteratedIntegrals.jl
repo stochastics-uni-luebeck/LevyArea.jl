@@ -1,4 +1,4 @@
-module SRK
+module IteratedIntegrals
 
 import LinearAlgebra: mul!, lmul!, BLAS
 import Random: GLOBAL_RNG, randn!
