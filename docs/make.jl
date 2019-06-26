@@ -1,14 +1,16 @@
-using Documenter, SRK
+using Documenter, IteratedIntegrals
 
 makedocs(
-    sitename = "SRK.jl",
-    modules = [SRK],
+    sitename = "IteratedIntegrals.jl",
+    modules = [IteratedIntegrals],
     pages = [
-        "Home" => "index.md"
+        "Home" => "index.md",
+        "Index" => "functions.md",
+        "References" => "references.md"
     ],
     format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true")
 )
 
 deploydocs(
-    repo = "github.com/mrbauff/SRK.jl.git"
+    repo = "github.com/fkastner/IteratedIntegrals.jl.git"
 )
