@@ -18,7 +18,7 @@ export em
 
 
 abstract type AbstractIteratedIntegralAlgorithm end
-struct Milstein <: AbstractIteratedIntegralAlgorithm end
+struct Fourier <: AbstractIteratedIntegralAlgorithm end
 struct Wiktorsson <: AbstractIteratedIntegralAlgorithm end
 
 

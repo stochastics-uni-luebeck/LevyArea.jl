@@ -22,6 +22,11 @@ sri
 ```@docs
 IteratedIntegrals.ito_correction!
 IteratedIntegrals.terms_needed
+```
+
+## Miscellaneous
+
+```@docs
 IteratedIntegrals.createBrownianPath
 IteratedIntegrals.restrict
 ```

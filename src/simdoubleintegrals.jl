@@ -28,21 +28,23 @@ end
 
 
 """
-    simdoubleintegrals(W, n, alg::Milstein)
+    simdoubleintegrals(W, n, alg::Fourier)
 
 Simulates an approximation of the iterated Itô-integrals ``\\int_0^1W_s\\otimes dW_s``
 of the given ``m``-dimensional increment of a Wiener process with step size 1.
 The parameter ``n`` specifies the number of terms in the approximation and thus determines the accuracy.
 This is an efficient implementation of the algorithm proposed in [Milstein, 1994](@ref milstein1994).
-The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n`` Float64's.
+It is based on a Fourier expansion of the Wiener process.
+The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n+m`` Float64's.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, n::Integer, alg::Milstein)
-    # Preallocate
+function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, n::Integer, alg::Fourier)
     m::Integer = length(W)
     Y = randn(m,n) # allocates m*n Floats
     Y .= (Y .- √(2).*W) ./ (1:n)'
     A = Y*randn(n,m) # allocates m*n Floats
+    M = randn(m) # allocates m Floats
+    A .+= √(2*trigamma(n+1)) .* W.*M'
     G = 0.5.*W.*W' .+ inv(2pi).*(A .- A') # allocates m*m Floats
     return  G
 end
@@ -54,6 +56,7 @@ Simulates an approximation of the iterated Itô-integrals ``\\int_0^1W_s\\otimes
 of the given ``m``-dimensional increment of a Wiener process with step size 1.
 The parameter ``n`` specifies the number of terms in the approximation and thus determines the accuracy.
 This is an efficient implementation of the algorithm proposed in [Wiktorsson, 2001](@ref wiktorsson2001).
+It is based on the Fourier method from Milstein but incorporates an additional tail sum approximation.
 The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n+m`` Float64's.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
@@ -85,7 +88,7 @@ function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, n::Integer, alg:
 end
 
 """
-    simdoubleintegrals(W::AbstractVector, h, eps, alg=Wiktorsson(), ito_correction=true)
+    simdoubleintegrals(W::AbstractVector, h, eps; ito_correction=true, alg=Wiktorsson())
 
 Simulates an approximation of the iterated stochastic integrals
 ``\\int_0^h\\int_0^sdW_i(t)dW_j(s)`` for all pairs ``1\\le i, j \\le m``
@@ -103,10 +106,17 @@ julia> W = [1.0, 0.5]
 julia> diag(simdoubleintegrals(W, h, h^(3/2))) ≈ 0.5*W.^2 .- 0.5h
 true
 ```
+
+    simdoubleintegrals(W::AbstractVector, q_12::AbstractVector, h, eps; ito_correction=true, alg=Wiktorsson())
+
+Simulates an approximation of the iterated stochastic integrals for finite-dimensional approximations of
+a Q-Wiener process with covariance matrix ``Q = Q^\\frac{1}{2}*Q^\\frac{1}{2}``.
+Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``; the square root of the covariance matrix.
+Equivalently these are the square roots of the eigenvalues of ``Q``.
 """
-function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, h::Real, eps::Real,
-                            alg::AbstractIteratedIntegralAlgorithm=Wiktorsson(),
-                            ito_correction=true)
+function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, h::Real, eps::Real;
+                            ito_correction=true,
+                            alg::AbstractIteratedIntegralAlgorithm=Fourier())
     n = terms_needed(W, h, eps, alg)
     I = h * simdoubleintegrals(W/√h, n, alg)
     if ito_correction
@@ -115,13 +125,26 @@ function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, h::Real, eps::Re
     return I
 end
 
+function simdoubleintegrals(W::AbstractVector{<:AbstractFloat}, q_12::AbstractVector, h::Real, eps::Real;
+                            ito_correction=true,
+                            alg::AbstractIteratedIntegralAlgorithm=Fourier())
+    n = terms_needed(W, q_12, h, eps, alg)
+    I = simdoubleintegrals(W./q_12./√h, n, alg)
+    if ito_correction
+        ito_correction!(I)
+    end
+    return h.*q12'.*I.*q12 # scale correctly
+end
+
 """
-    simdoubleintegrals(W::Real, h)
+    simdoubleintegrals(W::Real, h::Real=1.0, eps::Real=0.0; ito_correction=true, kwargs...)
 
 In the case of a scalar Brownian motion the integral can be explicitly
 calculated as ``\\int_0^h\\int_0^sdW(t)dW(s) = \\frac{1}{2}W(h)^2 - \\frac{1}{2}h``.
+
+The parameter `eps` (as well as all additional keyword arguments) has no effect but is available to provide the same interface as the multidimensional version.
 """
-simdoubleintegrals(W::Real, h::Real=1.0) = 0.5*W^2 - 0.5*h
+simdoubleintegrals(W::Real, h::Real=1.0, eps::Real=0.0; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5h : 0.5W^2
 
 """
     terms_needed(W, stepsize, eps, alg)
@@ -136,13 +159,32 @@ julia> h = 1/128;
 
 julia> W = sqrt(h)*randn(10);
 
-julia> IteratedIntegrals.terms_needed(W, h, h^(3/2), IteratedIntegrals.Milstein())
+julia> IteratedIntegrals.terms_needed(W, h, h^(3/2), IteratedIntegrals.Fourier())
 7
 ```
+
+    terms_needed(W, q_12, stepsize, eps, alg)
+
+Used for finite-dimensional approximations of a Q-Wiener process with covariance matrix
+``Q = Q^\\frac{1}{2}*Q^\\frac{1}{2}``. Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``;
+the square root of the covariance matrix. Equivalently these are the square roots of the eigenvalues of ``Q``.
 """
 function terms_needed end
-terms_needed(W, stepsize, eps, alg::Milstein) = ceil(Int64, 0.5*(stepsize/(π*eps))^2)
+terms_needed(W, stepsize, eps, alg::Fourier) = ceil(Int64, 0.5*(stepsize/(π*eps))^2)
 terms_needed(W, stepsize, eps, alg::Wiktorsson) = begin; m=length(W); ceil(Int64, √( m*(m-1)*(m+4*(W'*W)/stepsize)/6 ) * stepsize/(2π*eps)) end
+
+terms_needed(W, q_12::AbstractVector, stepsize, eps, alg::Fourier) = ceil(Int64, (stepsize*(q_12'*q_12)/(π*eps))^2) # here we ignored a constant factor
+# In the case of the Wiktorsson generalization to Q-Wiener processes,
+# we have two different non-sharp bounds. We can use the minimum of both.
+function terms_needed(W, q_12::AbstractVector, stepsize, eps, alg::Wiktorsson)
+    m = length(W)
+    q_min, q_max = extrema(q_12)
+    p1 = q_max*m*sqrt(m-1)
+    p2 = sqrt(q_max*(q_12'*q_12)^3)/q_min
+    return ceil(Int64, min(p1,p2)*stepsize/eps) # again ignoring a constant factor
+end
+
+
 
 
 ####################################################
