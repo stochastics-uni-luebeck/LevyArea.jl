@@ -7,7 +7,8 @@ DocTestSetup = :(using LinearAlgebra; using IteratedIntegrals)
 ## Main Functions
 
 ```@docs
-simdoubleintegrals
+simiterintegrals
+IteratedIntegrals.levyarea
 ```
 
 ## SDE schemes
