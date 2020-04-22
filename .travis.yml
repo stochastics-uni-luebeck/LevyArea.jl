@@ -3,10 +3,11 @@ language: julia
 
 os:
   - linux
+  - osx
 
 julia:
-  - 1.1
   - 1.0
+  - 1
   - nightly
 
 branches:
@@ -14,14 +15,13 @@ branches:
     - master
 #    - /^v[0-9]+\.[0-9]+\.[0-9]+$/ # version tags for Documenter.jl
 
-# matrix:
-#   allow_failures:
-#     - julia: nightly
-#     - os: osx
+matrix:
+  allow_failures:
+    - julia: nightly
 
 notifications:
   email: false
-  
+
 coveralls: true
 
 jobs:

@@ -88,6 +88,8 @@ function levyarea(W::AbstractVector{T}, n::Integer, alg::Wiktorsson) where {T<:A
     return G
 end
 
+levyarea(W,n,alg::Wiktorsson2) = levyarea(W,n,Wiktorsson())
+
 """
     simiterintegrals(W::AbstractVector, h, eps; ito_correction=true, alg=Fourier())
 
@@ -175,6 +177,7 @@ the square root of the covariance matrix. Equivalently these are the square root
 function terms_needed end
 terms_needed(W, stepsize, eps, alg::Fourier) = ceil(Int64, 0.5*(stepsize/(π*eps))^2)
 terms_needed(W, stepsize, eps, alg::Wiktorsson) = begin; m=length(W); ceil(Int64, √( m*(m-1)*(m+4*(W'*W)/stepsize)/6 ) * stepsize/(2π*eps)) end
+terms_needed(W, stepsize, eps, alg::Wiktorsson2) = ceil(Int64, sqrt(length(W))*stepsize/(3π*eps))
 
 terms_needed(W, q_12::AbstractVector, stepsize, eps, alg::Fourier) = ceil(Int64, (stepsize*(q_12'*q_12)/(π*eps))^2) # here we ignored a constant factor
 # In the case of the Wiktorsson generalization to Q-Wiener processes,

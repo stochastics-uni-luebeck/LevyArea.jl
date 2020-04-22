@@ -13,6 +13,7 @@ import SpecialFunctions: trigamma
 abstract type AbstractIteratedIntegralAlgorithm end
 struct Fourier <: AbstractIteratedIntegralAlgorithm end
 struct Wiktorsson <: AbstractIteratedIntegralAlgorithm end
+struct Wiktorsson2 <: AbstractIteratedIntegralAlgorithm end
 
 # Exports
 export simiterintegrals
