@@ -46,7 +46,7 @@ function levyarea(W::AbstractVector{T}, n::Integer, alg::Fourier) where {T<:Abst
     A = Y*randn(n,m) # allocates m*n + m*m Floats
     M = randn(m) # allocates m Floats
     A .+= √(2*trigamma(n+1)) .* W.*M'
-    G = 0.5.*W.*W' .+ inv(2pi).*(A .- A') # allocates m*m Floats
+    G = inv(2pi).*(A .- A') # allocates m*m Floats
     return G
 end
 
@@ -84,7 +84,7 @@ function levyarea(W::AbstractVector{T}, n::Integer, alg::Wiktorsson) where {T<:A
     # 2.b and add the tail-sum approximation
     A .+= inv(1+√(1+W'*W)) .* (G*W) .* W' # allocates m Floats
     # 3. Calculate the iterated integrals
-    G .= 0.5.*W.*W' .+ inv(2pi).*(A .- A') # reuse G to save allocations
+    G .= inv(2pi).*(A .- A') # reuse G to save allocations
     return G
 end
 
