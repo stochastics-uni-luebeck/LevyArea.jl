@@ -2,18 +2,18 @@ module IteratedIntegrals
 
 # Imports
 import LinearAlgebra: mul!, lmul!, BLAS
-import Random: GLOBAL_RNG, randn!
+import Random: randn!
 import SpecialFunctions: trigamma
 
 # remove (only needed for 'old' algorithm)
 #import LinearAlgebra: kron, Diagonal, tril!, I
 #import SparseArrays: sparse
+#import Random: GLOBAL_RNG
 
 # Types
 abstract type AbstractIteratedIntegralAlgorithm end
 struct Fourier <: AbstractIteratedIntegralAlgorithm end
 struct Wiktorsson <: AbstractIteratedIntegralAlgorithm end
-struct Wiktorsson2 <: AbstractIteratedIntegralAlgorithm end
 
 # Exports
 export simiterintegrals
