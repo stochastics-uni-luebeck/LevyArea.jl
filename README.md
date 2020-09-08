@@ -12,13 +12,13 @@ These appear e.g. in higher order algorithms for the solution of stochastic (par
 ## Installation
 
 Since this package isn't registered yet, you have to use the GitHub URL of the repository:
-```
+```julia
 (v1.0) pkg> add https://github.com/fkastner/IteratedIntegrals.jl
 ```
 
 ## Usage Example
 
-```
+```julia
 julia> using IteratedIntegrals
 
 julia> h = 1/100;

@@ -15,7 +15,7 @@ function sri(drift::Function, diffusion::Function,
     h = step(𝓘)
     d = length(X₀)
     common_type = promote_type(eltype(X₀),Float64) # get at least Float64
-    if dW == nothing
+    if dW === nothing
         _dW = similar(X₀,common_type,m)
     elseif size(dW) ≠ (length(𝓘),m)
         error("Number of time points and Brownian increments do not match!")
@@ -32,7 +32,7 @@ function sri(drift::Function, diffusion::Function,
 
 
     for n = 1:length(𝓘)-1
-        if dW == nothing
+        if dW === nothing
             randn!(_dW)
             lmul!(√h, _dW)
         else
@@ -72,7 +72,7 @@ function sri(drift::Function, diffusion::Function,
 
     h = step(𝓘)
     common_type = promote_type(typeof(X₀),Float64) # get at least Float64
-    if dW == nothing
+    if dW === nothing
         _dW = Vector{common_type}(undef,m)
     elseif size(dW) ≠ (length(𝓘),m)
         error("Number of time points and Brownian increments do not match!")
@@ -87,7 +87,7 @@ function sri(drift::Function, diffusion::Function,
     bH₃ = Vector{common_type}(undef,m)
 
     for n = 1:length(𝓘)-1
-        if dW == nothing
+        if dW === nothing
             randn!(_dW)
             lmul!(√h, _dW)
         else
