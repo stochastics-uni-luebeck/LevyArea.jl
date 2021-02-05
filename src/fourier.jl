@@ -5,7 +5,7 @@ struct Fourier <: AbstractIteratedIntegralAlgorithm end
 
 convorder(::Fourier) = 1//2
 errcoeff(m, h, ::Fourier, ::MaxL2) = h/(√2*π)
-norv(m, n, ::FourierBasic) = 2*m*n+m
+norv(m, n, ::Fourier) = 2*m*n+m
 
 
 """
