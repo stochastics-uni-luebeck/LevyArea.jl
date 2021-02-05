@@ -9,20 +9,31 @@ DocTestSetup = :(using LinearAlgebra; using IteratedIntegrals)
 ```@docs
 simiterintegrals
 IteratedIntegrals.levyarea
+IteratedIntegrals.AbstractIteratedIntegralAlgorithm
+IteratedIntegrals.AbstractErrorNorm
+```
+
+## Algorithmic properties
+
+```@docs
+terms_needed
+IteratedIntegrals.convorder
+IteratedIntegrals.errcoeff
+IteratedIntegrals.norv
+IteratedIntegrals.effective_cost
 ```
 
 ## SDE schemes
 
 ```@docs
-em
-sri
+IteratedIntegrals.em
+IteratedIntegrals.sri
 ```
 
 ## Helper functions
 
 ```@docs
 IteratedIntegrals.ito_correction!
-IteratedIntegrals.terms_needed
 ```
 
 ## Miscellaneous

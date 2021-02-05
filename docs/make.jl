@@ -1,5 +1,8 @@
 using Documenter, IteratedIntegrals
 
+# Make sure that doctests in docstrings have the package available
+DocMeta.setdocmeta!(IteratedIntegrals, :DocTestSetup, :(using IteratedIntegrals); recursive=true)
+
 makedocs(
     sitename = "IteratedIntegrals.jl",
     modules = [IteratedIntegrals],
