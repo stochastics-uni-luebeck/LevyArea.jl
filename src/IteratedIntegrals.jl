@@ -11,9 +11,9 @@ import SpecialFunctions: trigamma
 
 Abstract type for algorithms for the simulation of iterated integrals.
 
-```jldoctest; setup=:(using InteractiveUtils; import IteratedIntegrals: AbstractIteratedIntegralAlgorithm)
+```jldoctest; setup=:(using InteractiveUtils; using IteratedIntegrals)
 julia> subtypes(AbstractIteratedIntegralAlgorithm)
-4-element Array{Any,1}:
+4-element Vector{Any}:
  Fourier
  FourierBasic
  MR
@@ -26,9 +26,9 @@ abstract type AbstractIteratedIntegralAlgorithm end
 
 Abstract type for different kind of errors one might consider.
 
-```jldoctest; setup=:(using InteractiveUtils; import IteratedIntegrals: AbstractErrorNorm)
-julia> subtypes(AbstractErrorNorm)
-2-element Array{Any,1}:
+```jldoctest; setup=:(using InteractiveUtils; using IteratedIntegrals)
+julia> subtypes(IteratedIntegrals.AbstractErrorNorm)
+2-element Vector{Any}:
  FrobeniusL2
  MaxL2
 ```

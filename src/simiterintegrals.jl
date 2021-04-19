@@ -5,13 +5,14 @@ Applies the Itô-correction for iterated integrals to `I`.
 This amounts to subtracting ``\\frac{1}{2}h`` from every element on the diagonal.
 
 # Example
-```jldoctest
+```jldoctest; setup=:(using IteratedIntegrals)
 julia> M = ones(5,5);
 
 julia> IteratedIntegrals.ito_correction!(M, 0.5)
 
+
 julia> M
-5×5 Array{Float64,2}:
+5×5 Matrix{Float64}:
  0.75  1.0   1.0   1.0   1.0
  1.0   0.75  1.0   1.0   1.0
  1.0   1.0   0.75  1.0   1.0
@@ -36,11 +37,11 @@ Simulates an approximation of the iterated stochastic integrals
 of the given ``m``-dimensional Brownian motion with step size h.
 
 # Examples
-```jldoctest; setup=:(using LinearAlgebra)
+```jldoctest; setup=:(using LinearAlgebra; using IteratedIntegrals)
 julia> h = 1/2;
 
 julia> W = [1.0, 0.5]
-2-element Array{Float64,1}:
+2-element Vector{Float64}:
  1.0
  0.5
 
@@ -105,7 +106,7 @@ This depends on the dimension of the Wiener process `dim`, the current stepsize 
 See also: [`AbstractIteratedIntegralAlgorithm`](@ref), [`AbstractErrorNorm`](@ref)
 
 # Examples
-```jldoctest
+```jldoctest; setup=:(using IteratedIntegrals)
 julia> h = 1/128;
 
 julia> terms_needed(10, h, h^(3/2), Fourier(), MaxL2())
@@ -128,7 +129,7 @@ Used for finite-dimensional approximations of a Q-Wiener process with covariance
 the square root of the covariance matrix. Equivalently these are the square roots of the eigenvalues of ``Q``.
 
 # Examples
-```jldoctest
+```jldoctest; setup=:(using IteratedIntegrals)
 julia> h = 1/128;
 
 julia> dim = 10;
