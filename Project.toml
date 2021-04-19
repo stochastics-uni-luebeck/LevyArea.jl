@@ -10,6 +10,7 @@ SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 # SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
+SpecialFunctions = "1.0"
 julia = "1.3"
 
 [extras]
