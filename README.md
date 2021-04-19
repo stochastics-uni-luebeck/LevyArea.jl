@@ -1,19 +1,23 @@
 # IteratedIntegrals.jl
 *Iterated Stochastic Integrals in Julia*
 
+<!--
 [![Build Status](https://travis-ci.org/fkastner/IteratedIntegrals.jl.svg?branch=master)](https://travis-ci.org/fkastner/IteratedIntegrals.jl)
 [![Coverage Status](https://coveralls.io/repos/github/fkastner/IteratedIntegrals.jl/badge.svg?branch=master)](https://coveralls.io/github/fkastner/IteratedIntegrals.jl?branch=master)
 [![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://fkastner.github.io/IteratedIntegrals.jl/dev)
+-->
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://fkastner.github.io/IteratedIntegrals.jl/stable)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://fkastner.github.io/IteratedIntegrals.jl/dev)
+[![Build Status](https://github.com/fkastner/IteratedIntegrals.jl/workflows/CI/badge.svg)](https://github.com/fkastner/IteratedIntegrals.jl/actions)
 
-
-This package implements state-of-the-art methods for the simulation of iterated stochstic integrals.
+This package implements state-of-the-art methods for the simulation of iterated stochastic integrals.
 These appear e.g. in higher order algorithms for the solution of stochastic (partial) differential equations.
 
 ## Installation
 
 Since this package isn't registered yet, you have to use the GitHub URL of the repository:
 ```julia
-(v1.0) pkg> add https://github.com/fkastner/IteratedIntegrals.jl
+julia> ]add https://github.com/fkastner/IteratedIntegrals.jl
 ```
 
 ## Usage Example
@@ -31,7 +35,7 @@ julia> W = sqrt(h) * randn(5)
  -0.03478687621740065
   0.07116134579533281
 
-julia> simdoubleintegrals(W,h)
+julia> simiterintegrals(W, h, h^(3/2))
 5×5 Array{Float64,2}:
   0.00646145  -0.00288169  -0.00092251    0.00208285  -0.00912994
   0.00766079  -0.00450181  -0.00126378    0.00517929  -0.00967469
