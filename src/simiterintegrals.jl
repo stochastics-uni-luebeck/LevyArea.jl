@@ -51,7 +51,7 @@ true
 """
 function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real;
     ito_correction=true,
-    alg::AbstractIteratedIntegralAlgorithm=Fourier(),
+    alg::AbstractIteratedIntegralAlgorithm=MR(),
     error_norm::AbstractErrorNorm=MaxL2()) where {T<:AbstractFloat}
     m = length(W)
     n = terms_needed(m, h, eps, alg, error_norm)
@@ -73,7 +73,7 @@ Equivalently these are the square roots of the eigenvalues of ``Q``.
 """
 function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
                             ito_correction=true,
-                            alg::AbstractIteratedIntegralAlgorithm=Fourier(),
+                            alg::AbstractIteratedIntegralAlgorithm=MR(),
                             error_norm::AbstractErrorNorm=FrobeniusL2()) where {T<:AbstractFloat}
     m = length(W)
     n = terms_needed(m, q_12, h, eps, alg, error_norm)

@@ -39,9 +39,11 @@ struct FrobeniusL2 <: AbstractErrorNorm end
 
 # Exports
 export simiterintegrals
+export terms_needed
+export optimal_algorithm
+
 export MaxL2
 export FrobeniusL2
-export terms_needed
 
 export AbstractIteratedIntegralAlgorithm
 export FourierBasic
@@ -59,6 +61,8 @@ include("fourierbasic.jl")
 include("fourier.jl")
 include("wiktorsson.jl")
 include("mr.jl")
+
+const ITER_INT_ALGS = [FourierBasic(),Fourier(),Wiktorsson(),MR()]
 
 # Other stuff
 include("sri.jl")

@@ -47,10 +47,42 @@ norv(dim, n, alg::AbstractIteratedIntegralAlgorithm)
 
 """
     effective_cost(dim, stepsize, eps, alg, norm)
+    effective_cost(dim, q_12, stepsize, eps, alg, norm)
 
 Returns the number of random numbers needed to simulate the iterated integrals
-with the given parameters to the given precision.
+with the given parameters.
 """
 function effective_cost(dim, stepsize, eps, alg, norm)
-    norv(m, terms_needed(dim, stepsize, eps, alg, norm), alg)
+    norv(dim, terms_needed(dim, stepsize, eps, alg, norm), alg)
+end
+function effective_cost(dim, q_12, stepsize, eps, alg, norm)
+    norv(dim, terms_needed(dim, q_12, stepsize, eps, alg, norm), alg)
+end
+
+
+"""
+    optimal_algorithm(dim, stepsize, eps, norm)
+    optimal_algorithm(dim, q_12, stepsize, eps, norm)
+
+Returns the optimal algorithm for the given parameters,
+i.e. the algorithm that needs to simulate the fewest random numbers.
+
+# Examples
+```jldoctest; setup=:(using IteratedIntegrals)
+julia> h = 1/128;
+
+julia> optimal_algorithm(10, h, h^(3/2), MaxL2())
+MR()
+
+julia> optimal_algorithm(10, 1.0./(1:10).^2, h, h^(3/2), MaxL2())
+Fourier()
+```
+"""
+function optimal_algorithm(dim, stepsize, eps, norm)
+    ind = argmin([effective_cost(dim, stepsize, eps, alg, norm) for alg ∈ ITER_INT_ALGS])
+    return ITER_INT_ALGS[ind]
+end
+function optimal_algorithm(dim, q_12, stepsize, eps, norm)
+    ind = argmin([effective_cost(dim, q_12, stepsize, eps, alg, norm) for alg ∈ ITER_INT_ALGS])
+    return ITER_INT_ALGS[ind]
 end
