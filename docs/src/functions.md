@@ -11,6 +11,7 @@ simiterintegrals
 IteratedIntegrals.levyarea
 IteratedIntegrals.AbstractIteratedIntegralAlgorithm
 IteratedIntegrals.AbstractErrorNorm
+optimal_algorithm
 ```
 
 ## Algorithmic properties
