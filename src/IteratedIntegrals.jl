@@ -15,8 +15,8 @@ Abstract type for algorithms for the simulation of iterated integrals.
 julia> subtypes(AbstractIteratedIntegralAlgorithm)
 4-element Vector{Any}:
  Fourier
- FourierBasic
  MR
+ Milstein
  Wiktorsson
 ```
 """
@@ -46,8 +46,8 @@ export MaxL2
 export FrobeniusL2
 
 export AbstractIteratedIntegralAlgorithm
-export FourierBasic
 export Fourier
+export Milstein
 export Wiktorsson
 export MR
 
@@ -57,12 +57,12 @@ include("simiterintegrals.jl")
 # Properties of Levy Area algorithms
 include("alg_utils.jl")
 # Levy Area algorithms
-include("fourierbasic.jl")
 include("fourier.jl")
+include("milstein.jl")
 include("wiktorsson.jl")
 include("mr.jl")
 
-const ITER_INT_ALGS = [FourierBasic(),Fourier(),Wiktorsson(),MR()]
+const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MR()]
 
 # Other stuff
 include("sri.jl")

@@ -24,7 +24,7 @@ Random.seed!(638278)
     end
     h = 0.01
     println("h = $h")
-    @testset "Alg $alg: Diagonal m=$i" for alg in [FourierBasic(), Fourier(), Wiktorsson(), MR()], i in [1;50:50:500]
+    @testset "Alg $alg: Diagonal m=$i" for alg ∈ IteratedIntegrals.ITER_INT_ALGS, i in [1;50:50:500]
         W = √h * randn(i)
         print("Alg $alg: Diagonal m=$i ")
         @time Ints = simiterintegrals(W, h, h^(3/2), alg=alg) # stepsize h

@@ -1,11 +1,10 @@
-# Fourier method
-# First published by Milstein, 1994
+# Basic Fourier method without any kind of rest approximation
 
 struct Fourier <: AbstractIteratedIntegralAlgorithm end
 
 convorder(::Fourier) = 1//2
-errcoeff(m, h, ::Fourier, ::MaxL2) = h/(√2*π)
-norv(m, n, ::Fourier) = 2*m*n+m
+errcoeff(m, h, ::Fourier, ::MaxL2) = h*√3/(√2*π)
+norv(m, n, ::Fourier) = 2*m*n
 
 
 """
@@ -14,9 +13,9 @@ norv(m, n, ::Fourier) = 2*m*n+m
 Simulates an approximation of the iterated Itô-integrals ``\\int_0^1W_s\\otimes dW_s``
 of the given ``m``-dimensional increment of a Wiener process with step size 1.
 The parameter ``n`` specifies the number of terms in the approximation and thus determines the accuracy.
-This is an efficient implementation of the algorithm proposed in [Milstein, 1994](@ref milstein1994).
-It is based on a Fourier expansion of the Wiener process.
-The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n+m`` Float64's.
+This algorithm is based on a Fourier expansion of the Wiener process.
+The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n`` Float's
+and ``2\\cdot m\\cdot n`` random numbers.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
 function levyarea(W::AbstractVector{T}, n::Integer, alg::Fourier) where {T<:AbstractFloat}
@@ -24,9 +23,6 @@ function levyarea(W::AbstractVector{T}, n::Integer, alg::Fourier) where {T<:Abst
     Y = randn(m,n) # allocates m*n Floats
     Y .= (Y .- √(2).*W) ./ (1:n)'
     A = Y*randn(n,m) # allocates m*n + m*m Floats
-    # Add simple rest approximation (a₀)
-    M = randn(m) # allocates m Floats
-    A .+= √(2*trigamma(n+1)) .* W.*M'
     # Antisymmetrize
     G = inv(2pi).*(A .- A') # allocates m*m Floats
     return G
