@@ -109,7 +109,7 @@ See also: [`AbstractIteratedIntegralAlgorithm`](@ref), [`AbstractErrorNorm`](@re
 ```jldoctest; setup=:(using IteratedIntegrals)
 julia> h = 1/128;
 
-julia> terms_needed(10, h, h^(3/2), Fourier(), MaxL2())
+julia> terms_needed(10, h, h^(3/2), Milstein(), MaxL2())
 7
 ```
 
@@ -135,7 +135,7 @@ julia> dim = 10;
 
 julia> q = [1/k^2 for k=1:dim];
 
-julia> terms_needed(dim, sqrt.(q), h, h^(3/2), Fourier(), FrobeniusL2())
+julia> terms_needed(dim, sqrt.(q), h, h^(3/2), Milstein(), FrobeniusL2())
 9
 ```
 """
