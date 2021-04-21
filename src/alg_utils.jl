@@ -61,8 +61,8 @@ end
 
 
 """
-    optimal_algorithm(dim, stepsize, eps, norm)
-    optimal_algorithm(dim, q_12, stepsize, eps, norm)
+    optimal_algorithm(dim, stepsize, eps=stepsize^(3/2), norm=MaxL2())
+    optimal_algorithm(dim, q_12, stepsize, eps, norm=FrobeniusL2())
 
 Returns the optimal algorithm for the given parameters,
 i.e. the algorithm that needs to simulate the fewest random numbers.
@@ -74,15 +74,15 @@ julia> h = 1/128;
 julia> optimal_algorithm(10, h, h^(3/2), MaxL2())
 MR()
 
-julia> optimal_algorithm(10, 1.0./(1:10).^2, h, h^(3/2), MaxL2())
-Fourier()
+julia> optimal_algorithm(10, 1.0./(1:10).^2, h, h^(3/2), FrobeniusL2())
+Milstein()
 ```
 """
-function optimal_algorithm(dim, stepsize, eps, norm)
+function optimal_algorithm(dim, stepsize, eps=stepsize^(3/2), norm::AbstractErrorNorm=MaxL2())
     ind = argmin([effective_cost(dim, stepsize, eps, alg, norm) for alg ∈ ITER_INT_ALGS])
     return ITER_INT_ALGS[ind]
 end
-function optimal_algorithm(dim, q_12, stepsize, eps, norm)
+function optimal_algorithm(dim, q_12, stepsize, eps, norm::AbstractErrorNorm=FrobeniusL2())
     ind = argmin([effective_cost(dim, q_12, stepsize, eps, alg, norm) for alg ∈ ITER_INT_ALGS])
     return ITER_INT_ALGS[ind]
 end

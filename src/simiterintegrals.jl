@@ -30,7 +30,7 @@ function ito_correction!(I, h=1)
 end
 
 """
-    simiterintegrals(W::AbstractVector, h, eps; ito_correction=true, alg=Fourier())
+    simiterintegrals(W::AbstractVector, h, eps=h^(3/2); ito_correction=true, alg=MR())
 
 Simulates an approximation of the iterated stochastic integrals
 ``\\int_0^h\\int_0^sdW_i(t)dW_j(s)`` for all pairs ``1\\le i, j \\le m``
@@ -49,10 +49,10 @@ julia> diag(simiterintegrals(W, h, h^(3/2))) ≈ 0.5*W.^2 .- 0.5h
 true
 ```
 """
-function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real;
-    ito_correction=true,
-    alg::AbstractIteratedIntegralAlgorithm=MR(),
-    error_norm::AbstractErrorNorm=MaxL2()) where {T<:AbstractFloat}
+function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
+                          ito_correction=true,
+                          alg::AbstractIteratedIntegralAlgorithm=MR(),
+                          error_norm::AbstractErrorNorm=MaxL2()) where {T<:AbstractFloat}
     m = length(W)
     n = terms_needed(m, h, eps, alg, error_norm)
     I = levyarea(W/√h, n, alg)
@@ -64,7 +64,7 @@ function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real;
 end
 
 """
-    simiterintegrals(W::AbstractVector, q_12::AbstractVector, h, eps; ito_correction=true, alg=Fourier())
+    simiterintegrals(W::AbstractVector, q_12::AbstractVector, h, eps; ito_correction=true, alg=MR())
 
 Simulates an approximation of the iterated stochastic integrals for finite-dimensional approximations of
 a Q-Wiener process with covariance matrix ``Q = Q^\\frac{1}{2}*Q^\\frac{1}{2}``.
@@ -72,9 +72,9 @@ Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``; the square roo
 Equivalently these are the square roots of the eigenvalues of ``Q``.
 """
 function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
-                            ito_correction=true,
-                            alg::AbstractIteratedIntegralAlgorithm=MR(),
-                            error_norm::AbstractErrorNorm=FrobeniusL2()) where {T<:AbstractFloat}
+                          ito_correction=true,
+                          alg::AbstractIteratedIntegralAlgorithm=MR(),
+                          error_norm::AbstractErrorNorm=FrobeniusL2()) where {T<:AbstractFloat}
     m = length(W)
     n = terms_needed(m, q_12, h, eps, alg, error_norm)
     I = levyarea(W./q_12./√h, n, alg)
