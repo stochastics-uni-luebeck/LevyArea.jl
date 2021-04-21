@@ -117,7 +117,6 @@ julia> terms_needed(10, h, h^(3/2), Fourier(), MaxL2())
 New algorithms should only have to implement [`errcoeff`](@ref) and [`convorder`](@ref).
 """
 function terms_needed(dim, stepsize, eps, alg::AbstractIteratedIntegralAlgorithm, norm::AbstractErrorNorm)
-    # ceil(Int64, _terms_needed(dim, stepsize, eps, alg, norm))
     ceil(Int64, (errcoeff(dim, stepsize, alg, norm)/eps)^(1//convorder(alg)) )
 end
 
@@ -142,6 +141,5 @@ julia> terms_needed(dim, sqrt.(q), h, h^(3/2), Fourier(), FrobeniusL2())
 """
 function terms_needed(dim, q_12, stepsize, eps, alg::AbstractIteratedIntegralAlgorithm, norm::AbstractErrorNorm)
     length(q_12) == dim || throw(ArgumentError("Length of q_12 must be equal to the dimension."))
-    # ceil(Int64, _terms_needed(dim, q_12, stepsize, eps, alg, norm))
     ceil(Int64, (errcoeff(dim, q_12, stepsize, alg, norm)/eps)^(1//convorder(alg)) )
 end

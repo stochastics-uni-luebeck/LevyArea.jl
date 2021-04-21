@@ -1,14 +1,14 @@
 # IteratedIntegrals.jl
 *Iterated Stochastic Integrals in Julia*
 
-This package implements state-of-the-art methods for the simulation of iterated stochstic integrals.
+This package implements state-of-the-art methods for the simulation of iterated stochastic integrals.
 These appear e.g. in higher order algorithms for the solution of stochastic (partial) differential equations.
 
 ## Installation
 
 Since this package isn't registered yet, you have to use the GitHub URL of the repository:
 ```julia
-(v1.0) pkg> add https://github.com/fkastner/IteratedIntegrals.jl
+julia> ]add https://github.com/fkastner/IteratedIntegrals.jl
 ```
 
 ## Usage Example

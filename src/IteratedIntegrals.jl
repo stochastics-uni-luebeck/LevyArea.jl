@@ -1,7 +1,7 @@
 module IteratedIntegrals
 
 # Imports
-import LinearAlgebra: mul!, lmul!, BLAS
+import LinearAlgebra: mul!
 import Random: randn!, default_rng
 import SpecialFunctions: trigamma
 
@@ -63,12 +63,6 @@ include("wiktorsson.jl")
 include("mr.jl")
 
 const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MR()]
-
-# Other stuff
-include("sri.jl")
-include("em.jl")
-include("utils.jl")
-
 
 
 end # module
