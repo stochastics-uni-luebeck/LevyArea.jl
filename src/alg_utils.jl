@@ -38,6 +38,54 @@ function errcoeff(m, q_12, stepsize, alg::AbstractIteratedIntegralAlgorithm, ::F
 end
 
 """
+    terms_needed(dim, stepsize, eps, alg, norm)
+    
+Returns the number of terms in the approximating sum that is needed to ensure an error
+in the given norm of at most `eps`.
+This depends on the dimension of the Wiener process `dim`, the current stepsize and the chosen algorithm.
+    
+See also: [`AbstractIteratedIntegralAlgorithm`](@ref), [`AbstractErrorNorm`](@ref)
+
+# Examples
+```jldoctest; setup=:(using IteratedIntegrals)
+julia> h = 1/128;
+
+julia> terms_needed(10, h, h^(3/2), Milstein(), MaxL2())
+7
+```
+
+# Implementation
+New algorithms should only have to implement [`errcoeff`](@ref) and [`convorder`](@ref).
+"""
+function terms_needed(dim, stepsize, eps, alg::AbstractIteratedIntegralAlgorithm, norm::AbstractErrorNorm)
+    ceil(Int64, (errcoeff(dim, stepsize, alg, norm)/eps)^(1//convorder(alg)) )
+end
+
+"""
+    terms_needed(dim, q_12, stepsize, eps, alg, norm)
+    
+Used for finite-dimensional approximations of a Q-Wiener process with covariance matrix
+``Q = Q^\\frac{1}{2}*Q^\\frac{1}{2}``. Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``;
+the square root of the covariance matrix. Equivalently these are the square roots of the eigenvalues of ``Q``.
+
+# Examples
+```jldoctest; setup=:(using IteratedIntegrals)
+julia> h = 1/128;
+
+julia> dim = 10;
+
+julia> q = [1/k^2 for k=1:dim];
+
+julia> terms_needed(dim, sqrt.(q), h, h^(3/2), Milstein(), FrobeniusL2())
+9
+```
+"""
+function terms_needed(dim, q_12, stepsize, eps, alg::AbstractIteratedIntegralAlgorithm, norm::AbstractErrorNorm)
+    length(q_12) == dim || throw(ArgumentError("Length of q_12 must be equal to the dimension."))
+    ceil(Int64, (errcoeff(dim, q_12, stepsize, alg, norm)/eps)^(1//convorder(alg)) )
+end
+
+"""
     norv(dim, n, alg::AbstractIteratedIntegralAlgorithm)
 
 Returns the number of random numbers needed to simulate the iterated integrals
