@@ -79,6 +79,16 @@ Simulates an approximation of the iterated stochastic integrals for finite-dimen
 a Q-Wiener process with covariance matrix ``Q = Q^\\frac{1}{2}*Q^\\frac{1}{2}``.
 Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``; the square root of the covariance matrix.
 Equivalently these are the square roots of the eigenvalues of ``Q``.
+
+# Examples
+```jldoctest; setup=:(using LinearAlgebra; using IteratedIntegrals)
+julia> h = 0.01; dim=10; q = [1/k^2 for k=1:dim];
+
+julia> W = √h * sqrt.(q) .* randn(dim);
+
+julia> diag(simiterintegrals(W,sqrt.(q),h,h^(3/2))) ≈ 0.5*W.^2 .- 0.5*h*q
+true
+```
 """
 function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
     ito_correction=true,
