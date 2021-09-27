@@ -5,7 +5,7 @@ import LinearAlgebra: mul!
 import Random: randn!, default_rng
 import SpecialFunctions: trigamma
 
-# Types
+
 """
     abstract type AbstractIteratedIntegralAlgorithm end
 
@@ -21,46 +21,32 @@ julia> subtypes(AbstractIteratedIntegralAlgorithm)
 ```
 """
 abstract type AbstractIteratedIntegralAlgorithm end
-"""
-    abstract type AbstractErrorNorm end
 
-Abstract type for different kind of errors one might consider.
 
-```jldoctest; setup=:(using InteractiveUtils; using IteratedIntegrals)
-julia> subtypes(IteratedIntegrals.AbstractErrorNorm)
-2-element Vector{Any}:
- FrobeniusL2
- MaxL2
-```
-"""
-abstract type AbstractErrorNorm end
-struct MaxL2 <: AbstractErrorNorm end
-struct FrobeniusL2 <: AbstractErrorNorm end
-
-# Exports
-export simiterintegrals
-export terms_needed
-export optimal_algorithm
-
+# Define error criteria
+include("error_norms.jl")
 export MaxL2
 export FrobeniusL2
 
-export AbstractIteratedIntegralAlgorithm
-export Fourier
-export Milstein
-export Wiktorsson
-export MR
-
-
 # Simulate in terms of Levy Area
 include("simiterintegrals.jl")
+export simiterintegrals
+
 # Properties of Levy Area algorithms
 include("alg_utils.jl")
+export terms_needed
+export optimal_algorithm
+
 # Levy Area algorithms
 include("fourier.jl")
 include("milstein.jl")
 include("wiktorsson.jl")
 include("mr.jl")
+export AbstractIteratedIntegralAlgorithm
+export Fourier
+export Milstein
+export Wiktorsson
+export MR
 
 const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MR()]
 

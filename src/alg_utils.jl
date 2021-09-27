@@ -23,20 +23,6 @@ calculated using `alg` and ``γ`` is the order of convergence given by [`convord
 """
 function errcoeff end
 
-# Default implementations in terms of the MaxL2 norm
-function errcoeff(m, stepsize, alg::AbstractIteratedIntegralAlgorithm, ::FrobeniusL2)
-    return √(m^2-m) * errcoeff(m, stepsize, alg, MaxL2())
-end
-function errcoeff(m, q_12, stepsize, alg::AbstractIteratedIntegralAlgorithm, ::MaxL2)
-    maxqq = maximum(q_12[i]*q_12[j] for i=1:m for j=1:i-1)
-    return maxqq * errcoeff(m, stepsize, alg, MaxL2())
-end
-function errcoeff(m, q_12, stepsize, alg::AbstractIteratedIntegralAlgorithm, ::FrobeniusL2)
-    trQ_sq = abs2(sum(abs2, q_12))
-    tr_Qsq = sum(abs2∘abs2, q_12)
-    return √(trQ_sq-tr_Qsq) * errcoeff(m, stepsize, alg, MaxL2())
-end
-
 """
     terms_needed(dim, stepsize, eps, alg, norm)
     
