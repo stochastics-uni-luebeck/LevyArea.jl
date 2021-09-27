@@ -16,7 +16,7 @@ const FrobeniusL2 = SchattenqLp{2,2}
 All currently defined norms:
 ```jldoctest; setup=:(using InteractiveUtils; using IteratedIntegrals)
 julia> subtypes(IteratedIntegrals.AbstractErrorNorm)
-2-element Vector{Any}:
+3-element Vector{Any}:
  IteratedIntegrals.LpMax
  IteratedIntegrals.MaxLp
  IteratedIntegrals.SchattenqLp
