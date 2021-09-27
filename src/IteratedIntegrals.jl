@@ -62,7 +62,7 @@ include("milstein.jl")
 include("wiktorsson.jl")
 include("mr.jl")
 
-const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MR()]
+# const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MR()]
 
 
 end # module

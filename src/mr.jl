@@ -1,7 +1,14 @@
 # Mrongowius-Rößler method
 # First published by Mrongowius & Rößler, 2021
 
-struct MR <: AbstractIteratedIntegralAlgorithm end
+struct MR{T<:AbstractFloat} <: AbstractIteratedIntegralAlgorithm
+    m::Int
+    n::Int
+    X::Matrix{T}
+    Y::Matrix{T}
+    A::Matrix{T}
+    MR{T}(m, n) where {T<:AbstractFloat} = new{T}(m,n,Matrix{T}(undef,m,n),Matrix{T}(undef,n,m),Matrix{T}(undef,m,m))
+end
 
 convorder(::MR) = 1//1
 errcoeff(m, h, ::MR, ::MaxL2) = √m*h/(√12*π)
@@ -20,14 +27,17 @@ The algorithm needs approximately ``m^2+2\\cdot m\\cdot n`` Float's
 and ``1/2m^2+2\\cdot m\\cdot n + 1/2m`` random numbers.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function levyarea(W::AbstractVector{T}, n::Integer, alg::MR) where {T<:AbstractFloat}
+function levyarea(W::AbstractVector{T}, alg::MR{T}) where {T<:AbstractFloat}
     rng = default_rng()
     m = length(W)
+    @assert m == alg.m
+    n = alg.n
+    X,Y,A = alg.X, alg.Y, alg.A
     # 1. Simulate Xₖ and Yₖ and approximate stochastic area integral
-    X = randn(rng, T, m, n) # allocates m*n Floats
-    Y = randn(rng, T, n, m) # allocates m*n Floats
+    randn!(rng, X)
+    randn!(rng, Y)
     Y .= (Y .- √(T(2)).*W') ./ (1:n)
-    A = X * Y # allocates m*m Floats
+    mul!(A,X,Y)
     
     # 2. Add first, simple rest approximation (a₀)
     Ψ = randn!(rng, view(X, :, 1))
