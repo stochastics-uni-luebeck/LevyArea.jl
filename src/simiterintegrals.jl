@@ -30,7 +30,11 @@ function ito_correction!(I, h=1)
 end
 
 """
-    simiterintegrals(W::AbstractVector, h, eps=h^(3/2); ito_correction=true, alg=MR())
+    simiterintegrals(W::AbstractVector, h, eps=h^(3/2);
+        ito_correction=true,
+        error_norm=MaxL2(),
+        alg=optimal_algorithm(length(W),h,eps,error_norm)
+    )
 
 Simulates an approximation of the iterated stochastic integrals
 ``\\int_0^h\\int_0^sdW_i(t)dW_j(s)`` for all pairs ``1\\le i, j \\le m``
@@ -50,9 +54,10 @@ true
 ```
 """
 function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
-                          ito_correction=true,
-                          alg::AbstractIteratedIntegralAlgorithm=MR(),
-                          error_norm::AbstractErrorNorm=MaxL2()) where {T<:AbstractFloat}
+    ito_correction=true,
+    error_norm::AbstractErrorNorm=MaxL2(),
+    alg::AbstractIteratedIntegralAlgorithm=optimal_algorithm(length(W),h,eps,error_norm)
+) where {T<:AbstractFloat}
     m = length(W)
     n = terms_needed(m, h, eps, alg, error_norm)
     I = levyarea(W/√h, n, alg)
@@ -64,7 +69,11 @@ function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
 end
 
 """
-    simiterintegrals(W::AbstractVector, q_12::AbstractVector, h, eps; ito_correction=true, alg=MR())
+    simiterintegrals(W::AbstractVector, q_12::AbstractVector, h, eps; 
+        ito_correction=true,
+        error_norm=FrobeniusL2(),
+        alg=optimal_algorithm(length(W),q_12,h,eps,error_norm)
+    )
 
 Simulates an approximation of the iterated stochastic integrals for finite-dimensional approximations of
 a Q-Wiener process with covariance matrix ``Q = Q^\\frac{1}{2}*Q^\\frac{1}{2}``.
@@ -72,9 +81,10 @@ Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``; the square roo
 Equivalently these are the square roots of the eigenvalues of ``Q``.
 """
 function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
-                          ito_correction=true,
-                          alg::AbstractIteratedIntegralAlgorithm=MR(),
-                          error_norm::AbstractErrorNorm=FrobeniusL2()) where {T<:AbstractFloat}
+    ito_correction=true,
+    error_norm::AbstractErrorNorm=FrobeniusL2(),
+    alg::AbstractIteratedIntegralAlgorithm=optimal_algorithm(length(W),q_12,h,eps,error_norm)
+) where {T<:AbstractFloat}
     m = length(W)
     n = terms_needed(m, q_12, h, eps, alg, error_norm)
     I = levyarea(W./q_12./√h, n, alg)
@@ -86,7 +96,7 @@ function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, e
 end
 
 """
-    simiterintegrals(W::Real, h::Real=1.0, eps::Real=0.0; ito_correction=true, kwargs...)
+    simiterintegrals(W::Real, h::Real, eps::Real=0.0; ito_correction=true, kwargs...)
 
 In the case of a scalar Brownian motion the integral can be explicitly
 calculated as ``\\int_0^h\\int_0^sdW(t)dW(s) = \\frac{1}{2}W(h)^2 - \\frac{1}{2}h``.
@@ -94,4 +104,4 @@ calculated as ``\\int_0^h\\int_0^sdW(t)dW(s) = \\frac{1}{2}W(h)^2 - \\frac{1}{2}
 The parameter `eps` (as well as all additional keyword arguments) has no effect but is available 
 to provide the same interface as the multidimensional version.
 """
-simiterintegrals(W::Real, h::Real=1.0, eps::Real=0.0; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5h : 0.5W^2
+simiterintegrals(W::Real, h::Real, eps::Real=0.0; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5h : 0.5W^2
