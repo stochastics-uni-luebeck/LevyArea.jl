@@ -29,8 +29,8 @@ export MaxL2
 export FrobeniusL2
 
 # Simulate in terms of Levy Area
-include("simiterintegrals.jl")
-export simiterintegrals
+include("iterated_integrals.jl")
+export iterated_integrals
 
 # Properties of Levy Area algorithms
 include("alg_utils.jl")

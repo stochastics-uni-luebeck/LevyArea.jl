@@ -30,7 +30,7 @@ function ito_correction!(I, h=1)
 end
 
 """
-    simiterintegrals(W::AbstractVector, h, eps=h^(3/2);
+    iterated_integrals(W::AbstractVector, h, eps=h^(3/2);
         ito_correction=true,
         error_norm=MaxL2(),
         alg=optimal_algorithm(length(W),h,eps,error_norm)
@@ -49,11 +49,11 @@ julia> W = [1.0, 0.5]
  1.0
  0.5
 
-julia> diag(simiterintegrals(W, h, h^(3/2))) ≈ 0.5*W.^2 .- 0.5h
+julia> diag(iterated_integrals(W, h, h^(3/2))) ≈ 0.5*W.^2 .- 0.5h
 true
 ```
 """
-function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
+function iterated_integrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
     ito_correction=true,
     error_norm::AbstractErrorNorm=MaxL2(),
     alg::AbstractIteratedIntegralAlgorithm=optimal_algorithm(length(W),h,eps,error_norm)
@@ -69,7 +69,7 @@ function simiterintegrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
 end
 
 """
-    simiterintegrals(W::AbstractVector, q_12::AbstractVector, h, eps; 
+    iterated_integrals(W::AbstractVector, q_12::AbstractVector, h, eps; 
         ito_correction=true,
         error_norm=FrobeniusL2(),
         alg=optimal_algorithm(length(W),q_12,h,eps,error_norm)
@@ -86,11 +86,11 @@ julia> h = 0.01; dim=10; q = [1/k^2 for k=1:dim];
 
 julia> W = √h * sqrt.(q) .* randn(dim);
 
-julia> diag(simiterintegrals(W,sqrt.(q),h,h^(3/2))) ≈ 0.5*W.^2 .- 0.5*h*q
+julia> diag(iterated_integrals(W,sqrt.(q),h,h^(3/2))) ≈ 0.5*W.^2 .- 0.5*h*q
 true
 ```
 """
-function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
+function iterated_integrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
     ito_correction=true,
     error_norm::AbstractErrorNorm=FrobeniusL2(),
     alg::AbstractIteratedIntegralAlgorithm=optimal_algorithm(length(W),q_12,h,eps,error_norm)
@@ -106,7 +106,7 @@ function simiterintegrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, e
 end
 
 """
-    simiterintegrals(W::Real, h::Real, eps::Real=0.0; ito_correction=true, kwargs...)
+    iterated_integrals(W::Real, h::Real, eps::Real=0.0; ito_correction=true, kwargs...)
 
 In the case of a scalar Brownian motion the integral can be explicitly
 calculated as ``\\int_0^h\\int_0^sdW(t)dW(s) = \\frac{1}{2}W(h)^2 - \\frac{1}{2}h``.
@@ -114,10 +114,10 @@ calculated as ``\\int_0^h\\int_0^sdW(t)dW(s) = \\frac{1}{2}W(h)^2 - \\frac{1}{2}
 The parameter `eps` (as well as all additional keyword arguments) has no effect but is available 
 to provide the same interface as the multidimensional version.
 """
-simiterintegrals(W::Real, h::Real, eps::Real=0.0; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5h : 0.5W^2
+iterated_integrals(W::Real, h::Real, eps::Real=0.0; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5h : 0.5W^2
 
 """
-    simiterintegrals(W::Real, q_12::Real, h::Real, eps::Real; ito_correction=true, kwargs...)
+    iterated_integrals(W::Real, q_12::Real, h::Real, eps::Real; ito_correction=true, kwargs...)
 
 In the case of a scalar Q-Wiener process with (scalar) covariance Q the integral can be explicitly
 calculated as ``\\int_0^h\\int_0^sdW(t)dW(s) = \\frac{1}{2}W(h)^2 - \\frac{1}{2}hQ``.
@@ -127,4 +127,4 @@ Note that, as in the multidimensional case, the parameter `q_12` denotes the squ
 The parameter `eps` (as well as all additional keyword arguments) has no effect but is available 
 to provide the same interface as the multidimensional version.
 """
-simiterintegrals(W::Real, q_12::Real, h::Real, eps::Real; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5*h*q_12^2 : 0.5W^2
+iterated_integrals(W::Real, q_12::Real, h::Real, eps::Real; ito_correction=true, kwargs...) = ito_correction ? 0.5W^2 - 0.5*h*q_12^2 : 0.5W^2

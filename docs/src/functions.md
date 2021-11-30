@@ -7,7 +7,7 @@ DocTestSetup = :(using LinearAlgebra; using IteratedIntegrals)
 ## Main Functions
 
 ```@docs
-simiterintegrals
+iterated_integrals
 IteratedIntegrals.levyarea
 IteratedIntegrals.AbstractIteratedIntegralAlgorithm
 IteratedIntegrals.AbstractErrorNorm

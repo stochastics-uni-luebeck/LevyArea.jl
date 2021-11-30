@@ -9,13 +9,13 @@ Random.seed!(638278)
 @testset "Iterated Integrals" begin
     @testset "m=1, h=$h" for h in rand(5)
         W = √h * randn()
-        Ints = simiterintegrals(W, h, h^(3/2))
+        Ints = iterated_integrals(W, h, h^(3/2))
         @test Ints == 0.5W^2 - 0.5h
     end
 
     #trigger compilation
     for alg ∈ IteratedIntegrals.ITER_INT_ALGS
-        simiterintegrals(randn(2),0.1,0.1, alg=alg)
+        iterated_integrals(randn(2),0.1,0.1, alg=alg)
     end
     
     h = 0.0001
@@ -24,8 +24,8 @@ Random.seed!(638278)
     @testset "Alg $alg: m=$m" for alg ∈ IteratedIntegrals.ITER_INT_ALGS, m in [2;10;50;100;500]
         W = √h * randn(m)
         print("Alg $alg: m=$m n=$(terms_needed(m,h,ϵ,alg,MaxL2())) cost=$(IteratedIntegrals.effective_cost(m,h,ϵ,alg,MaxL2()))")
-        @btime simiterintegrals($W, $h, $ϵ, alg=$alg) # stepsize h
-        Ints = simiterintegrals(W, h, ϵ, alg=alg) # stepsize h
+        @btime iterated_integrals($W, $h, $ϵ, alg=$alg) # stepsize h
+        Ints = iterated_integrals(W, h, ϵ, alg=alg) # stepsize h
         @test diag(Ints) ≈ 0.5*W.^2 .- 0.5h
     end
 end
