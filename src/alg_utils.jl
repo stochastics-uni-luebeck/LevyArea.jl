@@ -99,7 +99,8 @@ end
     optimal_algorithm(dim, q_12, stepsize, eps, norm=FrobeniusL2())
 
 Returns the optimal algorithm for the given parameters,
-i.e. the algorithm that needs to simulate the fewest random numbers.
+i.e. the algorithm that needs to simulate the fewest random numbers
+to achieve the desired precision `eps`.
 
 # Examples
 ```jldoctest; setup=:(using IteratedIntegrals)
