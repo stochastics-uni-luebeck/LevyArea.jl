@@ -1,16 +1,16 @@
 # Function reference
 
 ```@meta
-DocTestSetup = :(using LinearAlgebra; using IteratedIntegrals)
+DocTestSetup = :(using LinearAlgebra; using LevyArea)
 ```
 
 ## Main Functions
 
 ```@docs
 iterated_integrals
-IteratedIntegrals.levyarea
-IteratedIntegrals.AbstractIteratedIntegralAlgorithm
-IteratedIntegrals.AbstractErrorNorm
+LevyArea.levyarea
+LevyArea.AbstractIteratedIntegralAlgorithm
+LevyArea.AbstractErrorNorm
 optimal_algorithm
 ```
 
@@ -18,16 +18,16 @@ optimal_algorithm
 
 ```@docs
 terms_needed
-IteratedIntegrals.convorder
-IteratedIntegrals.errcoeff
-IteratedIntegrals.norv
-IteratedIntegrals.effective_cost
+LevyArea.convorder
+LevyArea.errcoeff
+LevyArea.norv
+LevyArea.effective_cost
 ```
 
 ## Helper functions
 
 ```@docs
-IteratedIntegrals.ito_correction!
+LevyArea.ito_correction!
 ```
 
 ## Index

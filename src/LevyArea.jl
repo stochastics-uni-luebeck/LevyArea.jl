@@ -1,4 +1,4 @@
-module IteratedIntegrals
+module LevyArea
 
 # Imports
 import LinearAlgebra: mul!
@@ -11,7 +11,7 @@ import SpecialFunctions: trigamma
 
 Abstract type for algorithms for the simulation of iterated integrals.
 
-```jldoctest; setup=:(using InteractiveUtils; using IteratedIntegrals)
+```jldoctest; setup=:(using InteractiveUtils; using LevyArea)
 julia> subtypes(AbstractIteratedIntegralAlgorithm)
 4-element Vector{Any}:
  Fourier

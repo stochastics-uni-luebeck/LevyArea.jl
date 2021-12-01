@@ -5,10 +5,10 @@ Applies the Itô-correction for iterated integrals to `I`.
 This amounts to subtracting ``\\frac{1}{2}h`` from every element on the diagonal.
 
 # Example
-```jldoctest; setup=:(using IteratedIntegrals)
+```jldoctest; setup=:(using LevyArea)
 julia> M = ones(5,5);
 
-julia> IteratedIntegrals.ito_correction!(M, 0.5)
+julia> LevyArea.ito_correction!(M, 0.5)
 
 
 julia> M
@@ -41,7 +41,7 @@ Simulates an approximation of the iterated stochastic integrals
 of the given ``m``-dimensional Brownian motion with step size h.
 
 # Examples
-```jldoctest; setup=:(using LinearAlgebra; using IteratedIntegrals)
+```jldoctest; setup=:(using LinearAlgebra; using LevyArea)
 julia> h = 1/2;
 
 julia> W = [1.0, 0.5]
@@ -81,7 +81,7 @@ Here `q_12` is a vector of the eigenvalues of ``Q^\\frac{1}{2}``; the square roo
 Equivalently these are the square roots of the eigenvalues of ``Q``.
 
 # Examples
-```jldoctest; setup=:(using LinearAlgebra; using IteratedIntegrals)
+```jldoctest; setup=:(using LinearAlgebra; using LevyArea)
 julia> h = 0.01; dim=10; q = [1/k^2 for k=1:dim];
 
 julia> W = √h * sqrt.(q) .* randn(dim);

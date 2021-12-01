@@ -1,29 +1,24 @@
-# IteratedIntegrals.jl
+# LevyArea.jl
 *Iterated Stochastic Integrals in Julia*
 
-<!--
-[![Build Status](https://travis-ci.org/fkastner/IteratedIntegrals.jl.svg?branch=master)](https://travis-ci.org/fkastner/IteratedIntegrals.jl)
-[![Coverage Status](https://coveralls.io/repos/github/fkastner/IteratedIntegrals.jl/badge.svg?branch=master)](https://coveralls.io/github/fkastner/IteratedIntegrals.jl?branch=master)
-[![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://fkastner.github.io/IteratedIntegrals.jl/dev)
--->
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://fkastner.github.io/IteratedIntegrals.jl/stable)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://fkastner.github.io/IteratedIntegrals.jl/dev)
-[![Build Status](https://github.com/fkastner/IteratedIntegrals.jl/workflows/CI/badge.svg)](https://github.com/fkastner/IteratedIntegrals.jl/actions)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/stable)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/dev)
+[![Build Status](https://github.com/stochastics-uni-luebeck/LevyArea.jl/workflows/CI/badge.svg)](https://github.com/stochastics-uni-luebeck/LevyArea.jl/actions)
 
 This package implements state-of-the-art methods for the simulation of iterated stochastic integrals.
 These appear e.g. in higher order algorithms for the solution of stochastic (partial) differential equations.
 
 ## Installation
 
-Since this package isn't registered yet, you have to use the GitHub URL of the repository:
+This package can be installed from the Julia package manager (type <kbd>]</kbd>)
 ```julia
-julia> ]add https://github.com/fkastner/IteratedIntegrals.jl
+pkg> add LevyArea
 ```
 
 ## Usage Example
 
 ```julia
-julia> using IteratedIntegrals
+julia> using LevyArea
 
 julia> h = 1/100;
 

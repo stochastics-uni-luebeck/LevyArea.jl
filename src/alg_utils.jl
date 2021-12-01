@@ -33,7 +33,7 @@ This depends on the dimension of the Wiener process `dim`, the current stepsize 
 See also: [`AbstractIteratedIntegralAlgorithm`](@ref), [`AbstractErrorNorm`](@ref)
 
 # Examples
-```jldoctest; setup=:(using IteratedIntegrals)
+```jldoctest; setup=:(using LevyArea)
 julia> h = 1/128;
 
 julia> terms_needed(10, h, h^(3/2), Milstein(), MaxL2())
@@ -55,7 +55,7 @@ Used for finite-dimensional approximations of a Q-Wiener process with covariance
 the square root of the covariance matrix. Equivalently these are the square roots of the eigenvalues of ``Q``.
 
 # Examples
-```jldoctest; setup=:(using IteratedIntegrals)
+```jldoctest; setup=:(using LevyArea)
 julia> h = 1/128;
 
 julia> dim = 10;
@@ -103,7 +103,7 @@ i.e. the algorithm that needs to simulate the fewest random numbers
 to achieve the desired precision `eps`.
 
 # Examples
-```jldoctest; setup=:(using IteratedIntegrals)
+```jldoctest; setup=:(using LevyArea)
 julia> h = 1/128;
 
 julia> optimal_algorithm(10, h, h^(3/2), MaxL2())

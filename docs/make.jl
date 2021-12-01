@@ -1,13 +1,13 @@
-using Documenter, IteratedIntegrals
+using Documenter, LevyArea
 
 # Make sure that doctests in docstrings have the package available
-DocMeta.setdocmeta!(IteratedIntegrals, :DocTestSetup, :(using IteratedIntegrals); recursive=true)
+DocMeta.setdocmeta!(LevyArea, :DocTestSetup, :(using LevyArea); recursive=true)
 
 makedocs(
-    sitename = "IteratedIntegrals.jl",
-    modules = [IteratedIntegrals],
+    sitename = "LevyArea.jl",
+    modules = [LevyArea],
     authors = "Felix Kastner <kastner.felix@gmail.com>",
-    repo = "https://github.com/fkastner/IteratedIntegrals.jl/blob/{commit}{path}#L{line}",
+    repo = "https://github.com/stochastics-uni-luebeck/LevyArea.jl/blob/{commit}{path}#L{line}",
     pages = [
         "Home" => "index.md",
         "Index" => "functions.md",
@@ -15,13 +15,13 @@ makedocs(
     ],
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
-        canonical = "https://fkastner.github.io/IteratedIntegrals.jl",
+        canonical = "https://stochastics-uni-luebeck.github.io/LevyArea.jl",
         assets = String[],
     ),
     strict = true
 )
 
 deploydocs(;
-    repo = "github.com/fkastner/IteratedIntegrals.jl",
+    repo = "github.com/stochastics-uni-luebeck/LevyArea.jl",
     push_preview = true
 )

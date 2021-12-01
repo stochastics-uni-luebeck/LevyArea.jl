@@ -1,4 +1,4 @@
-# IteratedIntegrals.jl
+# LevyArea.jl
 *Iterated Stochastic Integrals in Julia*
 
 This package implements state-of-the-art methods for the simulation of iterated stochastic integrals.
@@ -6,15 +6,15 @@ These appear e.g. in higher order algorithms for the solution of stochastic (par
 
 ## Installation
 
-Since this package isn't registered yet, you have to use the GitHub URL of the repository:
-```julia
-julia> ]add https://github.com/fkastner/IteratedIntegrals.jl
+This package can be installed from the Julia package manager (type <kbd>]</kbd>)
+```julia-repl
+pkg> add LevyArea
 ```
 
 ## Usage Example
 
-```julia
-julia> using IteratedIntegrals
+```julia-repl
+julia> using LevyArea
 
 julia> h = 1/100;
 

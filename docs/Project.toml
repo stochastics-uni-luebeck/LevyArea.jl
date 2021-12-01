@@ -1,6 +1,6 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-IteratedIntegrals = "2d8b4e74-eb68-11e8-0fb9-d5eb67b50637"
+LevyArea = "2d8b4e74-eb68-11e8-0fb9-d5eb67b50637"
 
 [compat]
 Documenter = "~0.26"
