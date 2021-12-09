@@ -1,0 +1,24 @@
+{
+    "title": "LevyArea.jl",
+    "description": "Simulate iterated stochastic integrals in Julia.",
+    "license": "MIT",
+    "upload_type": "software",
+    "keywords": [
+        "Levy Area",
+        "Iterated Integrals",
+        "Stochastic Differential Equations",
+        "Julia"
+    ],
+    "creators": [
+        {
+            "affiliation": "Universität zu Lübeck, Lübeck",
+            "name": "Kastner, Felix",
+            "orcid": "0000-0003-0504-6211"
+        },
+        {
+            "affiliation": "Universität zu Lübeck, Lübeck",
+            "name": "Rößler, Andreas",
+            "orcid": "0000-0002-2740-2697"
+        }
+    ]
+}
