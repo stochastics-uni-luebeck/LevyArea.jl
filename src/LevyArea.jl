@@ -15,7 +15,7 @@ Abstract type for algorithms for the simulation of iterated integrals.
 julia> subtypes(AbstractIteratedIntegralAlgorithm)
 4-element Vector{Any}:
  Fourier
- MR
+ MronRoe
  Milstein
  Wiktorsson
 ```
@@ -41,14 +41,14 @@ export optimal_algorithm
 include("fourier.jl")
 include("milstein.jl")
 include("wiktorsson.jl")
-include("mr.jl")
+include("mronroe.jl")
 export AbstractIteratedIntegralAlgorithm
 export Fourier
 export Milstein
 export Wiktorsson
-export MR
+export MronRoe
 
-const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MR()]
+const ITER_INT_ALGS = [Fourier(),Milstein(),Wiktorsson(),MronRoe()]
 
 
 end # module

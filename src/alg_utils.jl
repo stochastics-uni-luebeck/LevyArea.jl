@@ -107,7 +107,7 @@ to achieve the desired precision `eps`.
 julia> h = 1/128;
 
 julia> optimal_algorithm(10, h, h^(3/2), MaxL2())
-MR()
+MronRoe()
 
 julia> optimal_algorithm(10, 1.0./(1:10).^2, h, h^(3/2), FrobeniusL2())
 Milstein()

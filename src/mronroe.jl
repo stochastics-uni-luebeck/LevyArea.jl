@@ -1,15 +1,15 @@
 # Mrongowius-Rößler method
 # First published by Mrongowius & Rößler, 2021
 
-struct MR <: AbstractIteratedIntegralAlgorithm end
+struct MronRoe <: AbstractIteratedIntegralAlgorithm end
 
-convorder(::MR) = 1//1
-errcoeff(m, h, ::MR, ::MaxL2) = √m*h/(√12*π)
-norv(m, n, ::MR) = 2*m*n+(m^2+m)÷2
+convorder(::MronRoe) = 1//1
+errcoeff(m, h, ::MronRoe, ::MaxL2) = √m*h/(√12*π)
+norv(m, n, ::MronRoe) = 2*m*n+(m^2+m)÷2
 
 
 """
-    levyarea(W, n, alg::MR)
+    levyarea(W, n, alg::MronRoe)
 
 Simulates an approximation of the iterated Itô-integrals ``\\int_0^1W_s\\otimes dW_s``
 of the given ``m``-dimensional increment of a Wiener process with step size 1.
@@ -20,7 +20,7 @@ The algorithm needs approximately ``m^2+2\\cdot m\\cdot n`` Float's
 and ``1/2m^2+2\\cdot m\\cdot n + 1/2m`` random numbers.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function levyarea(W::AbstractVector{T}, n::Integer, alg::MR) where {T<:AbstractFloat}
+function levyarea(W::AbstractVector{T}, n::Integer, alg::MronRoe) where {T<:AbstractFloat}
     rng = default_rng()
     m = length(W)
     # 1. Simulate Xₖ and Yₖ and approximate stochastic area integral
