@@ -15,8 +15,8 @@ Abstract type for algorithms for the simulation of iterated integrals.
 julia> subtypes(AbstractIteratedIntegralAlgorithm)
 4-element Vector{Any}:
  Fourier
- MronRoe
  Milstein
+ MronRoe
  Wiktorsson
 ```
 """
