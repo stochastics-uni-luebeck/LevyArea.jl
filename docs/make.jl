@@ -23,5 +23,6 @@ makedocs(
 
 deploydocs(;
     repo = "github.com/stochastics-uni-luebeck/LevyArea.jl",
+    devbranch = "main",
     push_preview = true
 )
