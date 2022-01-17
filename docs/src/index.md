@@ -87,3 +87,7 @@ Additional information can be found, e.g., using the Julia help mode:
 julia> ?iterated_integrals
 julia> ?optimal_algorithm
 ```
+
+## Related Packages
+
+A Matlab version of this package is also available under [LevyArea.m](https://github.com/stochastics-uni-luebeck/LevyArea.m).
