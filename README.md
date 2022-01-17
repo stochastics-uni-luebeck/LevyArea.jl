@@ -17,32 +17,78 @@ pkg> add LevyArea
 
 ## Usage Example
 
-```julia
+Load the package and generate a Wiener increment:
+```julia-repl
 julia> using LevyArea
-
-julia> h = 1/100;
-
-julia> W = sqrt(h) * randn(5)
-5-element Array{Float64,1}:
- -0.15140313307420128
- -0.031565386565872114
-  0.04288593819444138
- -0.03478687621740065
-  0.07116134579533281
-
-julia> iterated_integrals(W, h, h^(3/2))
-5×5 Array{Float64,2}:
-  0.00646145  -0.00288169  -0.00092251    0.00208285  -0.00912994
-  0.00766079  -0.00450181  -0.00126378    0.00517929  -0.00967469
- -0.00557056  -8.99281e-5  -0.0040804    -0.00165624   0.00434686
-  0.003184    -0.00408123   0.000164376  -0.00439494  -0.00381448
- -0.00164411   0.00742845  -0.00129504    0.001339    -0.00246803
-
-julia> 0.5*W.^2 .- 0.5h
-5-element Array{Float64,1}:
-  0.006461454352342151
- -0.00450181318547353
- -0.004080398152591277
- -0.004394936621517622
- -0.0024680314322985345
+julia> m = 5; # dimension of Wiener process
+julia> h = 0.01; # step size or length of time interval
+julia> err = 0.05; # error bound
+julia> W = sqrt(h) * randn(m); # increment of Wiener process
 ```
+Here, $W$ is the $m$-dimensional vector of increments of the driving
+Wiener process on some time interval of length $h$.
+
+The default call uses h^(3/2) as the precision and chooses the best algorithm automatically:
+```julia-repl
+julia> II = iterated_integrals(W,h)
+```
+If not stated otherwise, the default error criterion is the $\max,L^2$-error
+and the function returns the $m \times m$ matrix `II` containing a realisation
+of the approximate iterated stochastic integrals that correspond
+to the given increment $W$.
+
+The desired precision can be optionally provided
+using a third positional argument:
+```julia-repl
+julia> II = iterated_integrals(W,h,err)
+```
+Again, the software package automatically chooses the optimal
+algorithm.
+
+To determine which algorithm is chosen by the package without simulating any iterated
+stochastic integrals yet, the function `optimal_algorithm` can
+be used. The arguments to this function are the dimension of the Wiener
+process, the step size and the desired precision:
+```julia-repl
+julia> alg = optimal_algorithm(m,h,err); # output: Fourier()
+```
+
+It is also possible to choose the algorithm directly using the
+keyword argument `alg`. The value can be one of
+`Fourier()`, `Milstein()`, `Wiktorsson()` and `MronRoe()`:
+```julia-repl
+julia> II = iterated_integrals(W,h; alg=Milstein())
+```
+
+As the norm for the considered error, e.g., the $\max,L^2$- and $\mathrm{F},L^2$-norm
+can be selected using a keyword argument. The corresponding
+values are `MaxL2()` and `FrobeniusL2()`:
+```julia-repl
+julia> II = iterated_integrals(W,h,err; error_norm=FrobeniusL2())
+```
+
+If iterated stochastic integrals for some $Q$-Wiener process need to
+be simulated, like for the numerical simulation of solutions to SPDEs,
+then the increment of the $Q$-Wiener process together with the
+square roots of the eigenvalues of the associated covariance
+operator have to be provided:
+```julia-repl
+julia> q = [1/k^2 for k=1:m]; # eigenvalues of cov. operator
+julia> QW = sqrt(h) * sqrt.(q) .* randn(m); # Q-Wiener increment
+julia> IIQ = iterated_integrals(QW,sqrt.(q),h,err)
+```
+In this case, the function `iterated_integrals` utilizes a
+scaling of the iterated stochastic integrals and also adjusts the error
+estimates appropriately such that the error bound holds w.r.t.\ the
+iterated stochastic integrals $\mathcal{I}^{Q}(h)$ based on the
+$Q$-Wiener process. Here the error norm defaults to the $\mathrm{F},L^2$-error.
+
+Note that all discussed keyword arguments are optional and can be
+combined as needed. 
+
+Additional information can be found, e.g., using the Julia help mode:
+```julia-repl
+julia> ?iterated_integrals
+julia> ?optimal_algorithm
+```
+or by reading the [documentation](https://stochastics-uni-luebeck.github.io/LevyArea.jl/stable/).
