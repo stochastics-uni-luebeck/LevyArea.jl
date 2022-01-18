@@ -1,5 +1,9 @@
 using Documenter, LevyArea
 
+# Plots (GR) workaround
+# see https://discourse.julialang.org/t/generation-of-documentation-fails-qt-qpa-xcb-could-not-connect-to-display/60988
+ENV["GKSwstype"] = "100"
+
 # Make sure that doctests in docstrings have the package available
 DocMeta.setdocmeta!(LevyArea, :DocTestSetup, :(using LevyArea); recursive=true)
 
