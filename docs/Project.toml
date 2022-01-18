@@ -1,6 +1,7 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 LevyArea = "2d8b4e74-eb68-11e8-0fb9-d5eb67b50637"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 
 [compat]
 Documenter = "~0.27"

@@ -10,6 +10,7 @@ makedocs(
     repo = "https://github.com/stochastics-uni-luebeck/LevyArea.jl/blob/{commit}{path}#L{line}",
     pages = [
         "Home" => "index.md",
+        "Examples" => "examples.md",
         "Index" => "functions.md",
         "References" => "references.md"
     ],
@@ -17,6 +18,7 @@ makedocs(
         prettyurls = get(ENV, "CI", "false") == "true",
         canonical = "https://stochastics-uni-luebeck.github.io/LevyArea.jl",
         assets = String[],
+        ansicolor=true,
     ),
     strict = true
 )
