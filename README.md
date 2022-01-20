@@ -4,6 +4,8 @@
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/dev)
 [![Build Status](https://github.com/stochastics-uni-luebeck/LevyArea.jl/workflows/CI/badge.svg)](https://github.com/stochastics-uni-luebeck/LevyArea.jl/actions)
+[![DOI](https://zenodo.org/badge/153140495.svg)](https://zenodo.org/badge/latestdoi/153140495)
+
 
 This package implements state-of-the-art methods for the simulation of iterated stochastic integrals.
 These appear e.g. in higher order algorithms for the solution of stochastic (partial) differential equations.
