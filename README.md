@@ -5,6 +5,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/dev)
 [![Build Status](https://github.com/stochastics-uni-luebeck/LevyArea.jl/workflows/CI/badge.svg)](https://github.com/stochastics-uni-luebeck/LevyArea.jl/actions)
 [![DOI](https://zenodo.org/badge/153140495.svg)](https://zenodo.org/badge/latestdoi/153140495)
+[![arXiv](https://img.shields.io/badge/arXiv-2201.08424-blue.svg)](https://arxiv.org/abs/2201.08424)
 
 
 This package implements state-of-the-art methods for the simulation of iterated stochastic integrals.
@@ -94,6 +95,9 @@ julia> ?iterated_integrals
 julia> ?optimal_algorithm
 ```
 or by reading the [documentation](https://stochastics-uni-luebeck.github.io/LevyArea.jl/stable/).
+
+## Citing
+Please cite this package and/or the accompanying paper if you found this package useful. Example BibLaTeX code can be found in the [CITATION.bib](CITATION.bib) file.
 
 ## Related Packages
 
