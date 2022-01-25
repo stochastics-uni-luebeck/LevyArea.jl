@@ -4,7 +4,7 @@
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://stochastics-uni-luebeck.github.io/LevyArea.jl/dev)
 [![Build Status](https://github.com/stochastics-uni-luebeck/LevyArea.jl/workflows/CI/badge.svg)](https://github.com/stochastics-uni-luebeck/LevyArea.jl/actions)
-[![DOI](https://zenodo.org/badge/153140495.svg)](https://zenodo.org/badge/latestdoi/153140495)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.5883748-blue.svg)](https://doi.org/10.5281/zenodo.5883748) <!-- Concept DOI -->
 [![arXiv](https://img.shields.io/badge/arXiv-2201.08424-blue.svg)](https://arxiv.org/abs/2201.08424)
 
 
