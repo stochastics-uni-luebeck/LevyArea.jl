@@ -1,5 +1,11 @@
 # References
 
+###### [Kastner & Rößler, 2022](@id kr2022)
+> Kastner, F. and Rößler, A.,
+> *"An Analysis of Approximation Algorithms for Iterated Stochastic Integrals and a Julia and MATLAB Simulation Toolbox."*
+>
+> arXiv: [2201.08424](https://arxiv.org/abs/2201.08424).
+
 ###### [Milstein, 1994](@id milstein1994)
 > Milstein, G. N.,
 > *"Numerical integration of stochastic differential equations."*
