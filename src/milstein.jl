@@ -19,7 +19,7 @@ It is based on a Fourier expansion of the Wiener process.
 The algorithm needs approximately ``m^2+2\\cdot m\\cdot n`` Float's.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function levyarea(W::AbstractVector{T}, n::Integer, alg::Milstein) where {T<:AbstractFloat}
+function levyarea(W::AbstractVector{T}, n::Integer, alg::Milstein) where {T}
     rng = default_rng()
     m = length(W)
     X = randn(rng, T, n, m) # allocates m*n Floats

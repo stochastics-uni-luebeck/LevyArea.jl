@@ -18,7 +18,7 @@ The algorithm needs approximately ``m^2+2\\cdot m\\cdot n`` Float's
 and ``2\\cdot m\\cdot n`` random numbers.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function levyarea(W::AbstractVector{T}, n::Integer, alg::Fourier) where {T<:AbstractFloat}
+function levyarea(W::AbstractVector{T}, n::Integer, alg::Fourier) where {T}
     rng = default_rng()
     m = length(W)
     X = randn(rng, T, n, m) # allocates m*n Floats

@@ -19,7 +19,7 @@ It is based on the Fourier method from Milstein but incorporates an additional t
 The algorithm needs approximately ``2\\cdot m^2+2\\cdot m\\cdot n+m`` Float's.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function levyarea(W::AbstractVector{T}, n::Integer, alg::Wiktorsson) where {T<:AbstractFloat}
+function levyarea(W::AbstractVector{T}, n::Integer, alg::Wiktorsson) where {T}
     rng = default_rng()
     m = length(W)
     # Preallocate

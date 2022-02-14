@@ -53,11 +53,11 @@ julia> diag(iterated_integrals(W, h, h^(3/2))) ≈ 0.5*W.^2 .- 0.5h
 true
 ```
 """
-function iterated_integrals(W::AbstractVector{T}, h::Real, eps::Real=h^(3/2);
+function iterated_integrals(W::AbstractVector, h::Real, eps::Real=h^(3/2);
     ito_correction=true,
     error_norm::AbstractErrorNorm=MaxL2(),
     alg::AbstractIteratedIntegralAlgorithm=optimal_algorithm(length(W),h,eps,error_norm)
-) where {T<:AbstractFloat}
+)
     m = length(W)
     n = terms_needed(m, h, eps, alg, error_norm)
     I = levyarea(W/√h, n, alg)
@@ -90,11 +90,11 @@ julia> diag(iterated_integrals(W,sqrt.(q),h,h^(3/2))) ≈ 0.5*W.^2 .- 0.5*h*q
 true
 ```
 """
-function iterated_integrals(W::AbstractVector{T}, q_12::AbstractVector, h::Real, eps::Real;
+function iterated_integrals(W::AbstractVector, q_12::AbstractVector, h::Real, eps::Real;
     ito_correction=true,
     error_norm::AbstractErrorNorm=FrobeniusL2(),
     alg::AbstractIteratedIntegralAlgorithm=optimal_algorithm(length(W),q_12,h,eps,error_norm)
-) where {T<:AbstractFloat}
+)
     m = length(W)
     n = terms_needed(m, q_12, h, eps, alg, error_norm)
     I = levyarea(W./q_12./√h, n, alg)

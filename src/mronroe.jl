@@ -20,7 +20,7 @@ The algorithm needs approximately ``m^2+2\\cdot m\\cdot n`` Float's
 and ``1/2m^2+2\\cdot m\\cdot n + 1/2m`` random numbers.
 The time complexity is ``\\mathcal{O}(m^2\\cdot n)``.
 """
-function levyarea(W::AbstractVector{T}, n::Integer, alg::MronRoe) where {T<:AbstractFloat}
+function levyarea(W::AbstractVector{T}, n::Integer, alg::MronRoe) where {T}
     rng = default_rng()
     m = length(W)
     # 1. Simulate Xₖ and Yₖ and approximate stochastic area integral
