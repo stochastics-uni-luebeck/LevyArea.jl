@@ -15,7 +15,8 @@ makedocs(
     pages = [
         "Home" => "index.md",
         "Examples" => "examples.md",
-        "Index" => "functions.md",
+        "Function reference" => "functions.md",
+        "Algorithms" => "algorithms.md",
         "References" => "references.md"
     ],
     format = Documenter.HTML(;
